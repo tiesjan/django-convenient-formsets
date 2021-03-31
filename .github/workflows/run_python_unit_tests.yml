@@ -1,0 +1,43 @@
+name: Python unit tests
+
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: '0 18 * * 5'  # Run every Friday at 18:00 UTC
+
+jobs:
+  test:
+    name: py${{ matrix.python }}-${{ matrix.django }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python:
+          - '3.5'
+          - '3.6'
+          - '3.7'
+          - '3.8'
+          - '3.9'
+        django:
+          - 'django22'
+          - 'django30'
+          - 'django31'
+          - 'django32'
+        exclude:
+          - python: '3.5'
+            django: 'django30'
+          - python: '3.5'
+            django: 'django31'
+          - python: '3.5'
+            django: 'django32'
+    steps:
+      - name: Check-out repository
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install `tox`
+        run: python3 -m pip install tox
+      - name: Run unit tests
+        run: python3 -m tox -e py3-${{ matrix.django }}
