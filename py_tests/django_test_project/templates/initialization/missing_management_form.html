@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block page_scripts %}
+<script>
+    window.addEventListener('load', function(event) {
+        new ConvenientFormset({
+            'formsetPrefix': 'formset',
+            'formsContainerSelector': '#formset #forms-container',
+            'formSelector': '.form',
+            'emptyFormSelector': '#formset #empty-form .form',
+            'addFormButtonSelector': '#formset #add-form-button',
+        });
+    });
+</script>
+{% endblock%}
+
+
+{% block page_contents %}
+<div id="formset">
+    <div id="forms-container"></div>
+    <input type="button" id="add-form-button" value="Add form">
+    <div id="empty-form" hidden>
+        <div class="form">
+            <input type="text" name="formset-__prefix__-user">
+        </div>
+    </div>
+</div>
+{% endblock %}

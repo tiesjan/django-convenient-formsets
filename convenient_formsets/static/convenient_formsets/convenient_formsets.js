@@ -60,7 +60,7 @@ const ConvenientFormset = function(options) {
             for (let j = 0; j < labelElements.length; j++) {
                 const labelElement = labelElements[j];
                 if (labelElement.hasAttribute('for')) {
-                    let attrValue = labelElement.getAttribute('id');
+                    let attrValue = labelElement.getAttribute('for');
                     attrValue = attrValue.replace(idRegex, idReplacement);
                     labelElement.setAttribute('for', attrValue);
                 }
@@ -352,24 +352,21 @@ const ConvenientFormset = function(options) {
             initializeFormsetOptions(customOptions);
         }
         catch (error) {
-            console.error('[ConvenientFormset]', error.message);
-            return;
+            throw Error('[ConvenientFormset] ' + error.message);
         }
 
         try {
             selectFormsetElements();
         }
         catch (error) {
-            console.error('[ConvenientFormset]', error.message);
-            return;
+            throw Error('[ConvenientFormset] ' + error.message);
         }
 
         try {
             selectManagementFormElements();
         }
         catch (error) {
-            console.error('[ConvenientFormset]', error.message);
-            return;
+            throw Error('[ConvenientFormset] ' + error.message);
         }
 
         if (formsetOptions.deleteFormButtonSelector !== null) {

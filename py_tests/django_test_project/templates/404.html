@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+
+{% block page_contents %}
+<h1>Template not found</h1>
+{% if request.GET.template_name %}
+<p>Could not find template: "<em>{{ request.GET.template_name }}</em>".</p>
+{% else %}
+<p>Template not specified.</p>
+{% endif %}
+{% endblock %}

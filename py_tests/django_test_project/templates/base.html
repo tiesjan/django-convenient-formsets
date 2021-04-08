@@ -1,0 +1,27 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <title>End-to-end test</title>
+
+        <script>
+            // Catch JavaScript errors and put their messages in `#error-log`,
+            // allowing WebDrivers to retrieve them for further assertions
+            window.addEventListener('error', function(event) {
+                const error_log = document.querySelector('#error-log');
+                if (error_log !== null) {
+                    error_log.innerHTML += (event.error.message.trim() + '\n');
+                }
+            });
+        </script>
+        <script src="{% static "convenient_formsets/convenient_formsets.js" %}"></script>
+        {% block page_scripts %}{% endblock %}
+    </head>
+    <body>
+        <div>
+            {% block page_contents %}<pre>[No content]</pre>{% endblock %}
+        </div>
+        <hr />
+        <pre id="error-log"></pre>
+    </body>
+</html>
