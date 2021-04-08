@@ -1,3 +1,4 @@
+---
 name: Python unit tests
 
 on:
@@ -7,13 +8,11 @@ on:
     - cron: '0 18 * * 5'  # Run every Friday at 18:00 UTC
 
 jobs:
-  test:
-    name: py${{ matrix.python }}-${{ matrix.django }}
+  Test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python:
-          - '3.5'
           - '3.6'
           - '3.7'
           - '3.8'
@@ -23,13 +22,9 @@ jobs:
           - 'django30'
           - 'django31'
           - 'django32'
-        exclude:
+        include:
           - python: '3.5'
-            django: 'django30'
-          - python: '3.5'
-            django: 'django31'
-          - python: '3.5'
-            django: 'django32'
+            django: 'django22'
     steps:
       - name: Check-out repository
         uses: actions/checkout@v2
