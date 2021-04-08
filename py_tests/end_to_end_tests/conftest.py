@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from pytest_selenium.drivers.browserstack import BrowserStack
 
@@ -29,7 +31,9 @@ def selenium(selenium, request):
         else:
             status = 'passed'
             reason = 'OK'
-        selenium.execute_script(
-            'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status": "%s", "reason": "%s"}}' %
-            (status, reason)
-        )
+
+        cmd = {
+            "action": "setSessionStatus",
+            "arguments": {"status": status, "reason": reason}
+        }
+        selenium.execute_script(f'browserstack_executor: {json.dumps(cmd)}')
