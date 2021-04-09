@@ -3,7 +3,15 @@ name: End-to-end tests
 
 on:
   pull_request:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
   push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
   schedule:
     - cron: '0 18 * * 5'  # Run every Friday at 18:00 UTC
 

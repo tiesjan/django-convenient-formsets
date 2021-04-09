@@ -1,0 +1,7 @@
+graft convenient_formsets
+include LICENSE
+include README.md
+
+global-exclude .eslintrc.json
+global-exclude __pycache__
+global-exclude *.py[co]
