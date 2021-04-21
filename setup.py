@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 setuptools.setup(
     # Metadata
     name='django-convenient-formsets',
-    version='0.9.1',
+    version='0.9.2',
     license='BSD',
     author='Ties Jan Hefting',
     author_email='hello@tiesjan.com',
@@ -38,7 +38,7 @@ setuptools.setup(
     ],
 
     # Options
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(exclude=('py_tests*',)),
     include_package_data=True,
     zip_safe=False,
     python_requires='>=3.5',
