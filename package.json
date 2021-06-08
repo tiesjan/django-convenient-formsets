@@ -4,8 +4,8 @@
     "author": "Ties Jan Hefting",
     "license": "BSD-3-Clause",
     "engines": {
-        "node": "~10.19.0",
-        "npm": "~6.14.0"
+        "node": "~12.21.0",
+        "npm": "~7.5.0"
     },
     "devDependencies": {
         "eslint": "^7.22.0"

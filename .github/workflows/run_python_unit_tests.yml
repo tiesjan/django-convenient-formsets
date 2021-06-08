@@ -21,15 +21,15 @@ jobs:
     strategy:
       matrix:
         python:
-          - '3.6'
-          - '3.7'
-          - '3.8'
           - '3.9'
+          - '3.8'
+          - '3.7'
+          - '3.6'
         django:
-          - 'django22'
-          - 'django30'
-          - 'django31'
           - 'django32'
+          - 'django31'
+          - 'django30'
+          - 'django22'
         include:
           - python: '3.5'
             django: 'django22'
@@ -43,4 +43,4 @@ jobs:
       - name: Install `tox`
         run: python3 -m pip install tox
       - name: Run unit tests
-        run: python3 -m tox -e py3-${{ matrix.django }}
+        run: python3 -m tox -e py3-${{ matrix.django }} -- --randomly-seed ${{ github.run_number }}

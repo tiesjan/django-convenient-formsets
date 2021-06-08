@@ -1,4 +1,4 @@
-# django-convenient-formsets
+# Django Convenient Formsets
 
 [![Python unit tests](https://github.com/tiesjan/django-convenient-formsets/actions/workflows/run_python_unit_tests.yml/badge.svg)](https://github.com/tiesjan/django-convenient-formsets/actions/workflows/run_python_unit_tests.yml)
 [![End-to-end tests](https://github.com/tiesjan/django-convenient-formsets/actions/workflows/run_end_to_end_tests.yml/badge.svg)](https://github.com/tiesjan/django-convenient-formsets/actions/workflows/run_end_to_end_tests.yml)
