@@ -31,7 +31,7 @@
         "space-before-function-paren": ["error", {"anonymous": "never", "named": "never"}],
         "space-in-parens": ["error"],
         "space-infix-ops": ["error"],
-        "spaced-comment": ["error", "always", {"block": {"balanced": true}}],
+        "spaced-comment": ["error", "always", {"block": {"balanced": true, "exceptions": ["!"]}}],
         "strict": ["error", "global"]
     }
 }
