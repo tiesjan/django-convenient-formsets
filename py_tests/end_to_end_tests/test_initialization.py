@@ -3,13 +3,13 @@ from urllib.parse import urlencode
 from selenium.webdriver.common.by import By
 
 
-def test_missing_options(live_server, selenium):
+def test_missing_options1(live_server, selenium):
     """
     Asserts the ConvenientFormset instantiation raises an error message when
-    required options are missing.
+    required options have not been specified.
     """
     # Load webpage for test
-    params = {'template_name': 'initialization/missing_options.html'}
+    params = {'template_name': 'initialization/missing_options1.html'}
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
@@ -21,17 +21,17 @@ def test_missing_options(live_server, selenium):
     assert error_messages == [
         '[ConvenientFormset] Missing required options: '
         '`formsetPrefix`, `formsContainerSelector`, `formSelector`, '
-        '`emptyFormSelector`, `addFormButtonSelector`'
+        '`addFormButtonSelector`, `emptyFormSelector`'
     ]
 
 
-def test_missing_formset_elements(live_server, selenium):
+def test_missing_options2(live_server, selenium):
     """
     Asserts the ConvenientFormset instantiation raises an error message when
-    required formset elements are missing.
+    options that are conditionally required have not been specified.
     """
     # Load webpage for test
-    params = {'template_name': 'initialization/missing_formset_elements.html'}
+    params = {'template_name': 'initialization/missing_options2.html'}
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
@@ -41,9 +41,74 @@ def test_missing_formset_elements(live_server, selenium):
         msg.strip() for msg in error_log.text.split('\n') if msg.strip()
     ]
     assert error_messages == [
-        '[ConvenientFormset] Unable to find DOM element with selectors: '
+        '[ConvenientFormset] Missing required options: '
+        '`formsetPrefix`, `formsContainerSelector`, `formSelector`, '
+        '`addFormButtonSelector`, `emptyFormSelector`, '
+        '`deleteFormButtonSelector`'
+    ]
+
+
+def test_missing_formset_elements1(live_server, selenium):
+    """
+    Asserts the ConvenientFormset instantiation raises an error message when
+    required formset elements are missing.
+    """
+    # Load webpage for test
+    params = {'template_name': 'initialization/missing_formset_elements1.html'}
+    test_url = f'{live_server.url}?{urlencode(params)}'
+    selenium.get(test_url)
+
+    # Assert errors
+    error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
+    error_messages = [
+        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
+    ]
+    assert error_messages == [
+        '[ConvenientFormset] Unable to find DOM elements with selectors: '
         '`#formset #forms-container`, `#formset #empty-form .form`, '
         '`#formset #add-form-button`'
+    ]
+
+
+def test_missing_formset_elements2(live_server, selenium):
+    """
+    Asserts the ConvenientFormset instantiation raises an error message when
+    the `deleteFormButtonSelector` cannot be found in the empty form.
+    """
+    # Load webpage for test
+    params = {'template_name': 'initialization/missing_formset_elements2.html'}
+    test_url = f'{live_server.url}?{urlencode(params)}'
+    selenium.get(test_url)
+
+    # Assert errors
+    error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
+    error_messages = [
+        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
+    ]
+    assert error_messages == [
+        '[ConvenientFormset] Unable to find DOM elements in empty form with '
+        'selectors: `#delete-form-button`'
+    ]
+
+
+def test_missing_formset_elements3(live_server, selenium):
+    """
+    Asserts the ConvenientFormset instantiation raises an error message when
+    the `deleteFormButtonSelector` cannot be found in visible forms.
+    """
+    # Load webpage for test
+    params = {'template_name': 'initialization/missing_formset_elements3.html'}
+    test_url = f'{live_server.url}?{urlencode(params)}'
+    selenium.get(test_url)
+
+    # Assert errors
+    error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
+    error_messages = [
+        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
+    ]
+    assert error_messages == [
+        '[ConvenientFormset] Unable to find DOM elements in one or more '
+        'visible forms with selectors: `#delete-form-button`'
     ]
 
 

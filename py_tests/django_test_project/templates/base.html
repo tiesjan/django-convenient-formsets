@@ -9,9 +9,7 @@
             // allowing WebDrivers to retrieve them for further assertions
             window.addEventListener('error', function(event) {
                 const error_log = document.querySelector('#error-log');
-                if (error_log !== null) {
-                    error_log.innerHTML += (event.error.message.trim() + '\n');
-                }
+                error_log.innerHTML += (event.error.message.trim() + '\n');
             });
         </script>
         <script src="{% static "convenient_formsets/convenient_formsets.js" %}"></script>

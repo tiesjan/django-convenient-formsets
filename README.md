@@ -64,8 +64,12 @@ dynamically adding and removing of forms on the webpage.
                     'formsetPrefix': '{{ email_formset.prefix }}',
                     'formsContainerSelector': '#formset #forms-container',
                     'formSelector': '.form',
-                    'emptyFormSelector': '#formset #empty-form .form',
+
+                    'canAddForms': true,
                     'addFormButtonSelector': '#formset #add-form-button',
+                    'emptyFormSelector': '#formset #empty-form .form',
+
+                    'canAddForms': true,
                     'deleteFormButtonSelector': '#delete-form-button',
                 });
             });
@@ -100,7 +104,7 @@ dynamically adding and removing of forms on the webpage.
 
 ## Usage
 
-### Backend
+### Server side
 The Python classes `ConvenientBaseFormSet` and `ConvenientBaseModelFormSet`
 extend Django's built-in `BaseFormSet` and `BaseModelFormset` by:
 - Allowing you to override the `delete_widget` property, used for the `DELETE`
@@ -108,7 +112,7 @@ extend Django's built-in `BaseFormSet` and `BaseModelFormset` by:
   hide it from the user.
 - Including the JavaScript files required for dynamic formsets.
 
-### Frontend
+### Client side
 See the example in the Quick start guide above on how to render the formset in
 your HTML template. Feel free to add some intermediate DOM elements if it suits
 your template better, as long as you stick to the basic structure shown above.
@@ -116,46 +120,52 @@ your template better, as long as you stick to the basic structure shown above.
 Creating an instance of the JavaScript constructor function `ConvenientFormset`
 allows a user to add and delete forms within the rendered formset. When a user
 makes changes, the management form is updated accordingly. The constructor
-function can be passed the following parameters:
+function can be passed the parameters outlined below. In case the initialization
+of `ConvenientFormset` fails, check the browser console for some helpful output.
 
-| Name                          | Description                                                                                    | Type    | Required |
-| ----------------------------- | ---------------------------------------------------------------------------------------------- | ------- | ---------|
-| `formsetPrefix`               | The formset's `prefix` property                                                                | String  | **Yes**  |
-| `formsContainerSelector`      | CSS selector for the DOM element that contains all the forms                                   | String  | **Yes**  |
-| `formSelector`                | CSS selector for each form within `formsContainerSelector`                                     | String  | **Yes**  |
-| `emptyFormSelector`           | CSS selector for the empty form                                                                | String  | **Yes**  |
-| `addFormButtonSelector`       | CSS selector for the DOM element that may be clicked to add an empty form                      | String  | **Yes**  |
-| `deleteFormButtonSelector`    | CSS selector for the DOM element within `formSelector` that may be clicked to delete a form    | String  | No       |
-| `hideAddFormButtonOnMaxForms` | Whether or not to hide the add button when reaching the max. number of forms (default: `true`) | Boolean | No       |
+###### GENERAL
+<dl>
+  <dt>formsetPrefix</dt>
+  <dd>The formset's "prefix" property (required).</dd>
+  <dt>formsContainerSelector</dt>
+  <dd>CSS selector for the DOM element that contains all the forms (required).</dd>
+  <dt>formSelector</dt>
+  <dd>CSS selector for each form within "formsContainerSelector" (required).</dd>
+</dl>
 
-##### How adding an empty form works
-The CSS selector `addFormButtonSelector` determines the DOM element that may be
-clicked (i.e. button or anchor) by the user to add an empty form, denoted by
-`emptyFormSelector`. It is cloned and added to the DOM element with
-`formsContainerSelector`.
+---
 
-If the `hideAddFormButtonOnMaxForms` parameter is set to `true` and the maximum
-number of forms is reached, the DOM element with `addFormButtonSelector` is
-automatically hidden by applying the `hidden` HTML attribute until one of the
-visible forms is deleted again.
+###### ADDING FORMS
+<dl>
+  <dt>canAddForms</dt>
+  <dd>Enables adding of new forms (default: true).</dd>
+  <dt>addFormButtonSelector</dt>
+  <dd>CSS selector for the DOM element that may be clicked to add an empty form (required if "canAddForms" is set).</dd>
+  <dt>emptyFormSelector</dt>
+  <dd>CSS selector for the empty form (required if "canAddForms" is set).</dd>
+  <dt>hideAddFormButtonOnMaxForms</dt>
+  <dd>Hides the add button when reaching the maximum number of forms, by applying the "hidden" HTML attribute (default: true).</dd>
+</dl>
 
-##### How form deletion works
-The CSS selector `deleteFormButtonSelector` determines the DOM element within
-each form that may be clicked by the user to delete that form. If the parameter
-`deleteFormButtonSelector` has not been provided, support for form deletion is
-automatically disabled.
+---
 
-If a user clicks the DOM element with `deleteFormButtonSelector`, deletion is
-handled in either of the following ways:
+###### DELETING FORMS
+<dl>
+  <dt>canDeleteForms</dt>
+  <dd>Enables deleting of forms (default: false).</dd>
+  <dt>deleteFormButtonSelector</dt>
+  <dd>CSS selector for the DOM element within "formSelector" that may be clicked to delete a form (required if "canDeleteForms" is set).</dd>
+</dl>
+
+
+## Internals
+Form deletion is handled in either of the following ways:
 1. If a form includes a `DELETE` field, the field's value is updated and the
    form will be hidden by applying the `hidden` HTML attribute. The deletion
-   will then be handled by the backend.
+   will then be handled server side.
 2. If the form _does not_ include a `DELETE` field, the form is removed from
-   the DOM altogether and will not be submitted to the backend.
+   the DOM altogether and will not be submitted to the server.
 
-##### Troubleshooting
-In case the initialization of `ConvenientFormset` fails, check the browser
-console for some helpful output.
 
 ## License
 The scripts and documentation in this project are released under the

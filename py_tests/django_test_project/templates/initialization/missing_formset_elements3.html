@@ -1,6 +1,27 @@
 {% extends "base.html" %}
 
 
+{% block page_scripts %}
+<script>
+    window.addEventListener('load', function(event) {
+        new ConvenientFormset({
+            'formsetPrefix': 'formset',
+            'formsContainerSelector': '#formset #forms-container',
+            'formSelector': '.form',
+
+            'canAddForms': true,
+            'addFormButtonSelector': '#formset #add-form-button',
+            'emptyFormSelector': '#formset #empty-form .form',
+            'hideAddFormButtonOnMaxForms': true,
+
+            'canDeleteForms': true,
+            'deleteFormButtonSelector': '#delete-form-button',
+        });
+    });
+</script>
+{% endblock%}
+
+
 {% block page_contents %}
 <div id="formset">
     <div id="forms-container">
@@ -10,20 +31,12 @@
         <div class="form">
             <input type="text" name="formset-1-user" value="user1">
         </div>
-        <div class="form">
-            <input type="text" name="formset-2-user" value="user2">
-        </div>
-        <div class="form">
-            <input type="text" name="formset-3-user" value="user3">
-        </div>
-        <div class="form">
-            <input type="text" name="formset-4-user" value="user4">
-        </div>
     </div>
     <input type="button" id="add-form-button" value="Add form">
     <div id="empty-form" hidden>
         <div class="form">
             <input type="text" name="formset-__prefix__-user" value="">
+            <input type="button" id="delete-form-button" value="Delete form">
         </div>
     </div>
     <div id="management-form">

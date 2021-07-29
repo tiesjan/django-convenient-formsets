@@ -5,18 +5,20 @@ from selenium.webdriver.common.by import By
 
 def test_adding_form1(live_server, selenium):
     """
-    Test behavior when adding a form to a formset with 2 visible forms of 2
-    initial forms.
+    Test behavior when adding multiple forms to a formset with 2 visible forms
+    of 2 initial forms, without hiding the add form button upon reaching the
+    maximum number of forms.
     """
     # Load webpage for test
     params = {'template_name': 'adding_removing_forms/adding_form_1.html'}
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
-    # Initiate click on `addFormButton`
+    # Initiate 4 clicks on `addFormButton` (one too many)
     add_form_button = selenium.find_element(
             By.CSS_SELECTOR, '#formset #add-form-button')
-    add_form_button.click()
+    for _ in range(4):
+        add_form_button.click()
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
@@ -26,10 +28,10 @@ def test_adding_form1(live_server, selenium):
     assert error_messages == []
 
     # Assert attributes of text input
-    expected_values = ['user0', 'user1', '']
+    expected_values = ['user0', 'user1', '', '', '']
     forms = selenium.find_elements(
             By.CSS_SELECTOR, '#formset #forms-container .form')
-    assert len(forms) == 3
+    assert len(forms) == 5
     for i, form in enumerate(forms):
         text_input = form.find_elements(By.CSS_SELECTOR, 'input[type="text"]')[0]
         assert text_input.get_attribute('id') == f'id_formset-{i}-user'
@@ -39,7 +41,7 @@ def test_adding_form1(live_server, selenium):
     # Assert management form values
     total_forms_input = selenium.find_elements(
             By.CSS_SELECTOR, 'input[name="formset-TOTAL_FORMS"]')[0]
-    assert total_forms_input.get_attribute('value') == '3'
+    assert total_forms_input.get_attribute('value') == '5'
     initial_forms_input = selenium.find_elements(
             By.CSS_SELECTOR, 'input[name="formset-INITIAL_FORMS"]')[0]
     assert initial_forms_input.get_attribute('value') == '2'

@@ -4,7 +4,10 @@
 {% block page_scripts %}
 <script>
     window.addEventListener('load', function(event) {
-        new ConvenientFormset({});
+        new ConvenientFormset({
+            'canAddForms': true,
+            'canDeleteForms': true,
+        });
     });
 </script>
 {% endblock%}

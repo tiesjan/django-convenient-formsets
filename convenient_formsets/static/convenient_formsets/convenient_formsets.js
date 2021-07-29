@@ -2,18 +2,49 @@
 
 
 const ConvenientFormset = function(options) {
-    /* Default options */
-    const defaultOptions = {
-        // Required
-        'formsetPrefix': undefined,
-        'formsContainerSelector': undefined,
-        'formSelector': undefined,
-        'emptyFormSelector': undefined,
-        'addFormButtonSelector': undefined,
+    /* Available options */
+    const availableOptions = {
+        // Generic options
+        'formsetPrefix': {
+            'defaultValue': undefined,
+            'requiredIf': 'always',
+        },
+        'formsContainerSelector': {
+            'defaultValue': undefined,
+            'requiredIf': 'always',
+        },
+        'formSelector': {
+            'defaultValue': undefined,
+            'requiredIf': 'always',
+        },
 
-        // Optional
-        'deleteFormButtonSelector': null,
-        'hideAddFormButtonOnMaxForms': true,
+        // Options for adding forms
+        'canAddForms': {
+            'defaultValue': true,
+            'requiredIf': 'never',
+        },
+        'addFormButtonSelector': {
+            'defaultValue': undefined,
+            'requiredIf': 'canAddForms',
+        },
+        'emptyFormSelector': {
+            'defaultValue': undefined,
+            'requiredIf': 'canAddForms',
+        },
+        'hideAddFormButtonOnMaxForms': {
+            'defaultValue': true,
+            'requiredIf': 'never',
+        },
+
+        // Options for deleting forms
+        'canDeleteForms': {
+            'defaultValue': false,
+            'requiredIf': 'never',
+        },
+        'deleteFormButtonSelector': {
+            'defaultValue': undefined,
+            'requiredIf': 'canDeleteForms',
+        },
     };
 
     /* Formset specific options */
@@ -120,21 +151,25 @@ const ConvenientFormset = function(options) {
             return;
         }
 
-        // Clone and append empty form, adding an event listener for clicks on
-        // the `deleteFormButton` if present
+        // Clone empty form
         const newForm = formsetElements.emptyForm.cloneNode(true);
-        formsetElements.formsContainer.appendChild(newForm);
-        const deleteFormButton = newForm.querySelector(
-            formsetOptions.deleteFormButtonSelector
-        );
-        if (deleteFormButton !== null) {
+
+        // Add an event listener for clicks on the `deleteFormButton` if forms
+        // can be deleted
+        if (formsetOptions.canDeleteForms) {
+            const deleteFormButton = newForm.querySelector(
+                formsetOptions.deleteFormButtonSelector
+            );
             deleteFormButton.addEventListener(
                 'click', deleteFormButtonClicked.bind(this, newForm)
             );
         }
 
-        // Update visibility of the `addFormButton`
-        if (formsetOptions.hideAddFormButtonOnMaxForms) {
+        // Append form to forms container
+        formsetElements.formsContainer.appendChild(newForm);
+
+        // Update visibility of the `addFormButton` if forms can be added
+        if (formsetOptions.canAddForms && formsetOptions.hideAddFormButtonOnMaxForms) {
             updateAddFormButtonVisibility();
         }
 
@@ -162,8 +197,8 @@ const ConvenientFormset = function(options) {
             formsetElements.formsContainer.removeChild(form);
         }
 
-        // Update visibility of the `addFormButton`
-        if (formsetOptions.hideAddFormButtonOnMaxForms) {
+        // Update visibility of the `addFormButton` if forms can be added
+        if (formsetOptions.canAddForms && formsetOptions.hideAddFormButtonOnMaxForms) {
             updateAddFormButtonVisibility();
         }
 
@@ -177,31 +212,35 @@ const ConvenientFormset = function(options) {
         /*
          * Initializes `formsetOptions` using given `customOptions`.
          *
-         * Undefined option values in `defaultOptions` are required. Failing to
-         * specify them in `customOptions` will throw an error.
+         * Failing to specify required options will throw an error.
          */
         const missingOptions = [];
 
-        customOptions = customOptions || {};
-        for (let optionKey in defaultOptions) {  // eslint-disable-line prefer-const -- using `let` for IE11
+        for (let optionKey in availableOptions) {  // eslint-disable-line prefer-const -- using `let` for IE11
             // Attempt to retrieve option values from `customOptions`, falling
-            // back to values from `defaultOptions`
+            // back to the default value
             let optionValue;
             if (Object.prototype.hasOwnProperty.call(customOptions, optionKey)) {
                 optionValue = customOptions[optionKey];
             }
             else {
-                optionValue = defaultOptions[optionKey];
+                optionValue = availableOptions[optionKey].defaultValue;
             }
 
             // Store missing required options in `missingOptions`
-            const required = (typeof defaultOptions[optionKey] === 'undefined');
-            if (required && typeof optionValue === 'undefined') {
+            const requiredIf = availableOptions[optionKey].requiredIf;
+            const optionRequired = (
+                (requiredIf === 'always') ||
+                (requiredIf === 'canAddForms' && formsetOptions.canAddForms) ||
+                (requiredIf === 'canDeleteForms' && formsetOptions.canDeleteForms)
+            );
+            if (optionRequired && typeof optionValue === 'undefined') {
                 missingOptions.push(optionKey);
+                continue;
             }
-            else {
-                formsetOptions[optionKey] = optionValue;
-            }
+
+            // Store option value in `formsetOptions`
+            formsetOptions[optionKey] = optionValue;
         }
 
         // Throw error if there are missing required options
@@ -211,6 +250,72 @@ const ConvenientFormset = function(options) {
             ).join(', ');
             const message = (
                 'Missing required options: ' + formattedMissingOptions
+            );
+            throw new Error(message);
+        }
+    }
+
+    function checkEmptyFormElements() {
+        /*
+         * Asserts that the empty form has an `deleteFormButton` if forms can
+         * be deleted.
+         */
+        const missingElements = [];
+        let element;
+        let selector;
+
+        if (formsetOptions.canDeleteForms) {
+            selector = formsetOptions.deleteFormButtonSelector;
+            element = formsetElements.emptyForm.querySelector(selector);
+            if (element === null) {
+                missingElements.push(selector);
+            }
+        }
+
+        // Throw error if DOM elements are missing
+        if (missingElements.length) {
+            const formattedMissingElements = missingElements.map(
+                function(item) { return '`' + item + '`'; }
+            ).join(', ');
+            const message = (
+                'Unable to find DOM elements in empty form with selectors: ' +
+                formattedMissingElements
+            );
+            throw new Error(message);
+        }
+    }
+
+    function checkVisibleFormsElements() {
+        /*
+         * Asserts that all visible forms have a `deleteFormButton` if forms
+         * can be deleted.
+         */
+        const missingElements = [];
+        let element;
+        let selector;
+
+        const forms = formsetElements.formsContainer.querySelectorAll(
+            formsetOptions.formSelector + ':not([hidden])'
+        );
+        for (let i = 0; i < forms.length; i++) {
+            if (formsetOptions.canDeleteForms) {
+                const form = forms[i];
+                selector = formsetOptions.deleteFormButtonSelector;
+                element = form.querySelector(selector);
+                if (element === null && missingElements.indexOf(selector) === -1) {
+                    missingElements.push(selector);
+                }
+            }
+        }
+
+        // Throw error if DOM elements are missing
+        if (missingElements.length) {
+            const formattedMissingElements = missingElements.map(
+                function(item) { return '`' + item + '`'; }
+            ).join(', ');
+            const message = (
+                'Unable to find DOM elements in one or more visible forms ' +
+                'with selectors: ' + formattedMissingElements
             );
             throw new Error(message);
         }
@@ -233,16 +338,18 @@ const ConvenientFormset = function(options) {
             missingElements.push(selector);
         }
 
-        selector = formsetOptions.emptyFormSelector;
-        formsetElements.emptyForm = document.querySelector(selector);
-        if (formsetElements.emptyForm === null) {
-            missingElements.push(selector);
-        }
+        if (formsetOptions.canAddForms) {
+            selector = formsetOptions.emptyFormSelector;
+            formsetElements.emptyForm = document.querySelector(selector);
+            if (formsetElements.emptyForm === null) {
+                missingElements.push(selector);
+            }
 
-        selector = formsetOptions.addFormButtonSelector;
-        formsetElements.addFormButton = document.querySelector(selector);
-        if (formsetElements.addFormButton === null) {
-            missingElements.push(selector);
+            selector = formsetOptions.addFormButtonSelector;
+            formsetElements.addFormButton = document.querySelector(selector);
+            if (formsetElements.addFormButton === null) {
+                missingElements.push(selector);
+            }
         }
 
         // Throw error if DOM elements are missing
@@ -251,7 +358,7 @@ const ConvenientFormset = function(options) {
                 function(item) { return '`' + item + '`'; }
             ).join(', ');
             const message = (
-                'Unable to find DOM element with selectors: ' +
+                'Unable to find DOM elements with selectors: ' +
                 formattedMissingElements
             );
             throw new Error(message);
@@ -325,23 +432,23 @@ const ConvenientFormset = function(options) {
          * Initializes click event listeners for the `addFormButton` and for
          * the `deleteFormButton` of visible forms.
          */
-        formsetElements.addFormButton.addEventListener(
-            'click', addFormButtonClicked
-        );
+        if (formsetOptions.canAddForms) {
+            formsetElements.addFormButton.addEventListener(
+                'click', addFormButtonClicked
+            );
+        }
 
         const forms = formsetElements.formsContainer.querySelectorAll(
             formsetOptions.formSelector + ':not([hidden])'
         );
-        if (forms.length && formsetOptions.deleteFormButtonSelector !== null) {
+        if (formsetOptions.canDeleteForms) {
             for (let i = 0; i < forms.length; i++) {
                 const form = forms[i];
                 const deleteFormButton = form.querySelector(
                         formsetOptions.deleteFormButtonSelector);
-                if (deleteFormButton !== null) {
-                    deleteFormButton.addEventListener(
-                        'click', deleteFormButtonClicked.bind(this, form)
-                    );
-                }
+                deleteFormButton.addEventListener(
+                    'click', deleteFormButtonClicked.bind(this, form)
+                );
             }
         }
     }
@@ -369,14 +476,30 @@ const ConvenientFormset = function(options) {
             throw Error('[ConvenientFormset] ' + error.message);
         }
 
-        if (formsetOptions.deleteFormButtonSelector !== null) {
+        if (formsetOptions.canAddForms) {
+            try {
+                checkEmptyFormElements();
+            }
+            catch (error) {
+                throw Error('[ConvenientFormset] ' + error.message);
+            }
+        }
+
+        try {
+            checkVisibleFormsElements();
+        }
+        catch (error) {
+            throw Error('[ConvenientFormset] ' + error.message);
+        }
+
+        if (formsetOptions.canDeleteForms) {
             hideFormsMarkedForDeletion();
         }
 
-        if (formsetOptions.hideAddFormButtonOnMaxForms) {
+        if (formsetOptions.canAddForms && formsetOptions.hideAddFormButtonOnMaxForms) {
             updateAddFormButtonVisibility();
         }
 
         initializeEventListeners();
-    })(options);
+    })(options || {});
 };
