@@ -46,7 +46,7 @@ def test_add_fields_custom_delete_widget(form_class):
     assert isinstance(form.fields[DELETION_FIELD_NAME].widget, forms.CheckboxInput)
 
 
-def test_media(form_class):
+def test_media(form_class, settings):
     EmailFormSet = forms.formset_factory(
         form_class,
         formset=formsets.ConvenientBaseFormSet,
@@ -54,5 +54,10 @@ def test_media(form_class):
     )
     formset = EmailFormSet()
 
+    settings.DEBUG = True
     expected_url = static('convenient_formsets/convenient_formsets.js')
+    assert expected_url in str(formset.media['js'])
+
+    settings.DEBUG = False
+    expected_url = static('convenient_formsets/convenient_formsets.min.js')
     assert expected_url in str(formset.media['js'])

@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.forms.formsets import DELETION_FIELD_NAME
 
 
@@ -26,8 +27,9 @@ class ConvenientFormsetsBase(object):
         Returns a `Media` object that includes the form's media together with
         the JavaScript required for in-browser interaction.
         """
+        js_ext = "min.js" if not settings.DEBUG else "js"
         convenient_formsets_media = forms.Media(
-            js=('convenient_formsets/convenient_formsets.js',)
+            js=('convenient_formsets/convenient_formsets.{}'.format(js_ext),)
         )
         forms_media = super(ConvenientFormsetsBase, self).media
         return convenient_formsets_media + forms_media

@@ -255,5 +255,8 @@ dist
 
 ### Custom rules ###
 
+# Ignore minified JavaScript code
+convenient_formsets/static/convenient_formsets/convenient_formsets.min.js
+
 # Ignore `package-lock.json` as Node is only used for development
 package-lock.json

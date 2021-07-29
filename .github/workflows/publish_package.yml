@@ -15,12 +15,20 @@ jobs:
     steps:
       - name: Check-out repository
         uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
-      - name: Install dependencies
+      - name: Install Node.js dependencies
+        run: npm install
+      - name: Install Python dependencies
         run: python3 -m pip install build twine
+      - name: Minify JavaScript code
+        run: npm run minify
       - name: Build package
         run: python3 -m build --sdist --wheel ./
       - name: Publish package
