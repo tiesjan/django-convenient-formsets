@@ -4,138 +4,116 @@ name: End-to-end tests
 on:
   pull_request:
     branches:
-      - '**'
+      - "**"
     tags-ignore:
-      - '**'
+      - "**"
   push:
     branches:
-      - '**'
+      - "**"
     tags-ignore:
-      - '**'
+      - "**"
   schedule:
-    - cron: '0 18 * * 5'  # Run every Friday at 18:00 UTC
+    - cron: "0 18 * * 5"  # Run every Friday at 18:00 UTC
+
+concurrency: end_to_end_testing_environment
 
 jobs:
   Test:
     environment: end_to_end_testing_environment
     runs-on: ubuntu-latest
+
     strategy:
       max-parallel: 4
       matrix:
-        target:
+        capabilities:
           # Desktop browsers
-          - os: 'Windows'
-            os_version: '10'
-            browser: 'Chrome'
-            browser_version: '48'
-            platform: 'desktop'
-          - os: 'Windows'
-            os_version: '10'
-            browser: 'Chrome'
-            browser_version: 'latest'
-            platform: 'desktop'
-          - os: 'Windows'
-            os_version: '10'
-            browser: 'Firefox'
-            browser_version: '44'
-            platform: 'desktop'
-          - os: 'Windows'
-            os_version: '10'
-            browser: 'Firefox'
-            browser_version: 'latest'
-            platform: 'desktop'
-          - os: 'Windows'
-            os_version: '10'
-            browser: 'IE'
-            browser_version: '11'
-            platform: 'desktop'
-          - os: 'Windows'
-            os_version: '10'
-            browser: 'Edge'
-            browser_version: 'latest'
-            platform: 'desktop'
-          - os: 'OS X'
-            os_version: 'Sierra'
-            browser: 'Safari'
-            browser_version: '10'
-            platform: 'desktop'
-          - os: 'OS X'
-            os_version: 'Big Sur'
-            browser: 'Safari'
-            browser_version: 'latest'
-            platform: 'desktop'
+          - platform: "WIN10"
+            browserName: "chrome"
+            version: "48"
+          - platform: "WIN10"
+            browserName: "chrome"
+            version: "latest"
+          - platform: "WIN10"
+            browserName: "firefox"
+            version: "44"
+          - platform: "WIN10"
+            browserName: "firefox"
+            version: "latest"
+          - platform: "WIN10"
+            browserName: "ie"
+            version: "11"
+          - platform: "WIN10"
+            browserName: "edge"
+            version: "latest"
+          - platform: "WIN10"
+            browserName: "opera"
+            version: "50"
+          - platform: "WIN10"
+            browserName: "opera"
+            version: "latest"
+          - platform: "SIERRA"
+            browserName: "safari"
+            version: "11"
+          - platform: "BIGSUR"
+            browserName: "safari"
+            version: "latest"
 
           # Mobile browsers
-          - device: 'iPhone 7 Plus'
-            os_version: '10'
-            platform: 'mobile'
-          - device: 'iPhone 12 Pro'
-            os_version: '14'
-            platform: 'mobile'
-          - device: 'Samsung Galaxy S6'
-            os_version: '5.0'
-            platform: 'mobile'
-          - device: 'Samsung Galaxy S20'
-            os_version: '10.0'
-            platform: 'mobile'
-    env:
-      BROWSERSTACK_JOB_ACCESS: "public_url"
-    steps:
-      # Set up BrowserStack environment and start BrowserStackLocal
-      - name: Set up BrowserStack Environment
-        uses: browserstack/github-actions/setup-env@master
-        with:
-          username: ${{ secrets.BROWSERSTACK_USERNAME }}
-          access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-          project-name: 'REPO_NAME'
-          build-name: 'End-to-end test #${{ github.run_number }}'
-      - name: Start BrowserStackLocal
-        uses: browserstack/github-actions/setup-local@master
-        with:
-          local-testing: start
-          local-identifier: random
+          - platformName: "iOS"
+            deviceName: "iPhone 6s Plus"
+            browserName: "safari"
+            version: "10.3"
+          - platformName: "iOS"
+            deviceName: "iPhone 12 Pro"
+            browserName: "safari"
+            version: "14.2"
+          - platformName: "Android"
+            deviceName: "Pixel 2"
+            browserName: "chrome"
+            version: "7.1"
+          - platformName: "Android"
+            deviceName: "Galaxy S21"
+            browserName: "chrome"
+            version: "11.0"
 
-      # End-to-end tests
+    steps:
       - name: Check-out repository
         uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: "3.9"
+
       - name: Install `tox`
         run: python3 -m pip install tox
 
-      - name: Run end-to-end tests (desktop)
+      - name: Generate unique TestingBot Tunnel ID
         run: >
-            python3 -m tox -e py3-end2end --
-            --liveserver "bs-local.com:8080"
-            --driver BrowserStack
-            --capability browserstack.local true
-            --capability browserstack.localIdentifier "${{ env.BROWSERSTACK_LOCAL_IDENTIFIER }}"
-            --capability project "${{ env.BROWSERSTACK_PROJECT_NAME }}"
-            --capability build "${{ env.BROWSERSTACK_BUILD_NAME }}"
-            --capability os "${{ matrix.target.os }}"
-            --capability os_version "${{ matrix.target.os_version }}"
-            --capability browser "${{ matrix.target.browser }}"
-            --capability browser_version "${{ matrix.target.browser_version }}"
-        if: ${{ matrix.target.platform == 'desktop' }}
+          echo "TUNNEL_ID=TB-$(cat /proc/sys/kernel/random/uuid)" >> $GITHUB_ENV
 
-      - name: Run end-to-end tests (mobile)
-        run: >
-            python3 -m tox -e py3-end2end --
-            --liveserver "bs-local.com:8080"
-            --driver BrowserStack
-            --capability browserstack.local true
-            --capability browserstack.localIdentifier "${{ env.BROWSERSTACK_LOCAL_IDENTIFIER }}"
-            --capability project "${{ env.BROWSERSTACK_PROJECT_NAME }}"
-            --capability build "${{ env.BROWSERSTACK_BUILD_NAME }}"
-            --capability device "${{ matrix.target.device }}"
-            --capability realMobile "true"
-            --capability os_version "${{ matrix.target.os_version }}"
-        if: ${{ matrix.target.platform == 'mobile' }}
-
-      # Stop BrowserStackLocal
-      - name: Stop BrowserStackLocal
-        uses: browserstack/github-actions/setup-local@master
+      - name: Set up TestingBot Tunnel
+        uses: testingbot/testingbot-tunnel-action@v1.1.0
         with:
-          local-testing: stop
+          key: "${{ secrets.TESTINGBOT_KEY }}"
+          secret: "${{ secrets.TESTINGBOT_SECRET }}"
+          tunnelIdentifier: "${{ env.TUNNEL_ID }}"
+
+      - name: Dump target capabilities to JSON file
+        run: >
+          echo '{"capabilities": ${{ toJSON(matrix.capabilities) }}}' >>
+          ${{ runner.temp }}/capabilities.json
+
+      - name: Run end-to-end tests
+        run: >
+          python3 -m tox -e py3-end2end --
+          --driver TestingBot
+          --capability tunnel-identifier "${{ env.TUNNEL_ID }}"
+          --capability selenium-host "http://localhost"
+          --capability selenium-port "4445"
+          --capability build "End-to-end tests #${{ github.run_number }}"
+          --capability public "true"
+          --variables "${{ runner.temp }}/capabilities.json"
+        env:
+          TESTINGBOT_KEY: "${{ secrets.TESTINGBOT_KEY }}"
+          TESTINGBOT_SECRET: "${{ secrets.TESTINGBOT_SECRET }}"

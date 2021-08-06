@@ -3,7 +3,8 @@
 [![Python unit tests](https://github.com/tiesjan/django-convenient-formsets/actions/workflows/run_python_unit_tests.yml/badge.svg)](https://github.com/tiesjan/django-convenient-formsets/actions/workflows/run_python_unit_tests.yml)
 [![End-to-end tests](https://github.com/tiesjan/django-convenient-formsets/actions/workflows/run_end_to_end_tests.yml/badge.svg)](https://github.com/tiesjan/django-convenient-formsets/actions/workflows/run_end_to_end_tests.yml)
 [![Linters](https://github.com/tiesjan/django-convenient-formsets/actions/workflows/run_linters.yml/badge.svg)](https://github.com/tiesjan/django-convenient-formsets/actions/workflows/run_linters.yml)
-[![BrowserStack Status](https://automate.browserstack.com/badge.svg?badge_key=N1BMZUpLMzNxN2VtQ0wrN0VodnMzNDJmdktWS2YwdHJzcmxvZGc3QlNYYz0tLVVWU1UxOWxpS1RkQjJMOGIvVUtiU0E9PQ==--96448b365fd6a2a2102521d9c1fe7fad0eba0d02)](https://automate.browserstack.com/public-build/N1BMZUpLMzNxN2VtQ0wrN0VodnMzNDJmdktWS2YwdHJzcmxvZGc3QlNYYz0tLVVWU1UxOWxpS1RkQjJMOGIvVUtiU0E9PQ==--96448b365fd6a2a2102521d9c1fe7fad0eba0d02)
+[![TestingBot Test Status](https://testingbot.com/buildstatus/e67ac1c27fb0bd343c6f9ec32707a626)](https://testingbot.com/builds/e67ac1c27fb0bd343c6f9ec32707a626)
+
 
 This Django app aims to make formsets convenient for users and developers
 alike. It extends Django's built-in formset classes and includes support for
