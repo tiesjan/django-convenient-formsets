@@ -50,6 +50,20 @@ const ConvenientFormset = function(options) {
             'defaultValue': undefined,
             'requiredIf': 'canDeleteForms',
         },
+
+        // Options for ordering forms
+        'canOrderForms': {
+            'defaultValue': false,
+            'requiredIf': 'never',
+        },
+        'moveFormDownButtonSelector': {
+            'defaultValue': undefined,
+            'requiredIf': 'canOrderForms',
+        },
+        'moveFormUpButtonSelector': {
+            'defaultValue': undefined,
+            'requiredIf': 'canOrderForms',
+        },
     };
 
     /* Formset specific options */
@@ -82,11 +96,42 @@ const ConvenientFormset = function(options) {
          * `for` attribute of labels and the `id`/`name` attributes of inputs.
          */
         const prefix = formsetOptions.formsetPrefix;
-        const idRegex = new RegExp('(' + prefix + '-(\\d+|__prefix__))');
+        const idRegex = new RegExp(prefix + '-(\\d+|__prefix__)');
 
-        const forms = formsetElements.formsContainer.querySelectorAll(
+        let forms = formsetElements.formsContainer.querySelectorAll(
             formsetOptions.formSelector
         );
+
+        // If forms can be ordered, order the retrieved forms by the `name`
+        // attribute of ORDER input elements. This ensures indexes are updated
+        // according to the server side's expectations.
+        if (formsetOptions.canOrderForms) {
+            const compareForms = function(leftForm, rightForm) {
+                const selector = 'input[name$="ORDER"]';
+                const leftFormOrderElement = leftForm.querySelector(selector);
+                const rightFormOrderElement = rightForm.querySelector(selector);
+
+                // Parse integral index from both form's ORDER input element
+                // name. New forms have an index value of '__prefix__', which
+                // cannot be parsed. They will moved to the back of the array.
+                const leftFormId = parseInt(
+                    leftFormOrderElement.name.match(idRegex)[1], 10
+                );
+                const rightFormId = parseInt(
+                    rightFormOrderElement.name.match(idRegex)[1], 10
+                );
+                if (isNaN(rightFormId) || leftFormId < rightFormId) {
+                    return -1;
+                }
+                else if (isNaN(leftFormId) || leftFormId > rightFormId) {
+                    return 1;
+                }
+            };
+
+            forms = Array.prototype.slice.call(forms).sort(compareForms);
+        }
+
+
         for (let i = 0; i < forms.length; i++) {
             const form = forms[i];
             const idReplacement = prefix + '-' + i;
@@ -170,6 +215,38 @@ const ConvenientFormset = function(options) {
             );
         }
 
+        // Add event listeners for clicks on the `moveFormDownButton` and
+        // `moveFormUpButton` if forms can be ordered, and set the initial
+        // value of the ORDER input element
+        if (formsetOptions.canOrderForms) {
+            const moveFormDownButton = newForm.querySelector(
+                    formsetOptions.moveFormDownButtonSelector);
+            moveFormDownButton.addEventListener(
+                'click', moveFormDownButtonClicked.bind(this, newForm)
+            );
+
+            const moveFormUpButton = newForm.querySelector(
+                    formsetOptions.moveFormUpButtonSelector);
+            moveFormUpButton.addEventListener(
+                'click', moveFormUpButtonClicked.bind(this, newForm)
+            );
+
+            const selector = 'input[name$="ORDER"]';
+            let newFormOrderValue;
+            if (visibleForms.length) {
+                const lastForm = visibleForms[visibleForms.length - 1];
+                const lastFormOrderValue = parseInt(
+                    lastForm.querySelector(selector).value, 10
+                );
+                newFormOrderValue = lastFormOrderValue + 1;
+            }
+            else {
+                newFormOrderValue = 1;
+            }
+            const newFormOrderElement = newForm.querySelector(selector);
+            newFormOrderElement.value = newFormOrderValue;
+        }
+
         // Append form to forms container
         formsetElements.formsContainer.appendChild(newForm);
 
@@ -212,6 +289,62 @@ const ConvenientFormset = function(options) {
         updateManagementForm();
     }
 
+    function moveFormDownButtonClicked(form) {
+        /*
+         * Event handler for clicks on the `moveFormDownButton`. Expects `form`
+         * as a bound argument. Swaps both forms in the DOM and their ordering
+         * values.
+         */
+        let visibleForms = formsetElements.formsContainer.querySelectorAll(
+            formsetOptions.formSelector + ':not([hidden])'
+        );
+        visibleForms = Array.prototype.slice.call(visibleForms);
+        const formIndex = visibleForms.indexOf(form);
+
+        if (formIndex < visibleForms.length - 1) {
+            // Move form after next form
+            const nextForm = visibleForms[formIndex + 1];
+            formsetElements.formsContainer.insertBefore(nextForm, form);
+
+            // Select ORDER input elements for both forms and swap their values
+            const selector = 'input[name$="ORDER"]';
+            const formOrderElement = form.querySelector(selector);
+            const nextFormOrderElement = nextForm.querySelector(selector);
+            const formOrderValue = formOrderElement.value;
+            const nextFormOrderValue = nextFormOrderElement.value;
+            formOrderElement.value = nextFormOrderValue;
+            nextFormOrderElement.value = formOrderValue;
+        }
+    }
+
+    function moveFormUpButtonClicked(form) {
+        /*
+         * Event handler for clicks on the `moveFormUpButton`. Expects `form`
+         * as a bound argument. Swaps both forms in the DOM and their ordering
+         * values.
+         */
+        let visibleForms = formsetElements.formsContainer.querySelectorAll(
+            formsetOptions.formSelector + ':not([hidden])'
+        );
+        visibleForms = Array.prototype.slice.call(visibleForms);
+        const formIndex = visibleForms.indexOf(form);
+
+        if (formIndex > 0) {
+            // Move form before previous form
+            const previousForm = visibleForms[formIndex - 1];
+            formsetElements.formsContainer.insertBefore(form, previousForm);
+
+            // Select ORDER input elements for both forms and swap their values
+            const selector = 'input[name$="ORDER"]';
+            const formOrderElement = form.querySelector(selector);
+            const previousFormOrderElement = previousForm.querySelector(selector);
+            const formOrderValue = formOrderElement.value;
+            const previousFormOrderValue = previousFormOrderElement.value;
+            formOrderElement.value = previousFormOrderValue;
+            previousFormOrderElement.value = formOrderValue;
+        }
+    }
+
     /* Initialization functions */
     function initializeFormsetOptions(customOptions) {
         /*
@@ -237,7 +370,8 @@ const ConvenientFormset = function(options) {
             const optionRequired = (
                 (requiredIf === 'always') ||
                 (requiredIf === 'canAddForms' && formsetOptions.canAddForms) ||
-                (requiredIf === 'canDeleteForms' && formsetOptions.canDeleteForms)
+                (requiredIf === 'canDeleteForms' && formsetOptions.canDeleteForms) ||
+                (requiredIf === 'canOrderForms' && formsetOptions.canOrderForms)
             );
             if (optionRequired && typeof optionValue === 'undefined') {
                 missingOptions.push(optionKey);
@@ -263,7 +397,8 @@ const ConvenientFormset = function(options) {
     function checkEmptyFormElements() {
         /*
          * Asserts that the empty form has an `deleteFormButton` if forms can
-         * be deleted.
+         * be deleted, and a `moveFormDownButton` and a `moveFormUpButton` if
+         * forms can be ordered.
          */
         const missingElements = [];
         let element;
@@ -271,6 +406,26 @@ const ConvenientFormset = function(options) {
 
         if (formsetOptions.canDeleteForms) {
             selector = formsetOptions.deleteFormButtonSelector;
+            element = formsetElements.emptyForm.querySelector(selector);
+            if (element === null) {
+                missingElements.push(selector);
+            }
+        }
+
+        if (formsetOptions.canOrderForms) {
+            selector = formsetOptions.moveFormDownButtonSelector;
+            element = formsetElements.emptyForm.querySelector(selector);
+            if (element === null) {
+                missingElements.push(selector);
+            }
+
+            selector = formsetOptions.moveFormUpButtonSelector;
+            element = formsetElements.emptyForm.querySelector(selector);
+            if (element === null) {
+                missingElements.push(selector);
+            }
+
+            selector = 'input[name$="ORDER"]';
             element = formsetElements.emptyForm.querySelector(selector);
             if (element === null) {
                 missingElements.push(selector);
@@ -293,7 +448,8 @@ const ConvenientFormset = function(options) {
     function checkVisibleFormsElements() {
         /*
          * Asserts that all visible forms have a `deleteFormButton` if forms
-         * can be deleted.
+         * can be deleted, and a `moveFormDownButton` and a `moveFormUpButton`
+         * if forms can be ordered.
          */
         const missingElements = [];
         let element;
@@ -303,9 +459,30 @@ const ConvenientFormset = function(options) {
             formsetOptions.formSelector + ':not([hidden])'
         );
         for (let i = 0; i < forms.length; i++) {
+            const form = forms[i];
+
             if (formsetOptions.canDeleteForms) {
-                const form = forms[i];
                 selector = formsetOptions.deleteFormButtonSelector;
+                element = form.querySelector(selector);
+                if (element === null && missingElements.indexOf(selector) === -1) {
+                    missingElements.push(selector);
+                }
+            }
+
+            if (formsetOptions.canOrderForms) {
+                selector = formsetOptions.moveFormDownButtonSelector;
+                element = form.querySelector(selector);
+                if (element === null && missingElements.indexOf(selector) === -1) {
+                    missingElements.push(selector);
+                }
+
+                selector = formsetOptions.moveFormUpButtonSelector;
+                element = form.querySelector(selector);
+                if (element === null && missingElements.indexOf(selector) === -1) {
+                    missingElements.push(selector);
+                }
+
+                selector = 'input[name$="ORDER"]';
                 element = form.querySelector(selector);
                 if (element === null && missingElements.indexOf(selector) === -1) {
                     missingElements.push(selector);
@@ -435,7 +612,8 @@ const ConvenientFormset = function(options) {
     function initializeEventListeners() {
         /*
          * Initializes click event listeners for the `addFormButton` and for
-         * the `deleteFormButton` of visible forms.
+         * the `deleteFormButton`, `moveFormDownButton` and `moveFormUpButton`
+         * of visible forms.
          */
         if (formsetOptions.canAddForms) {
             formsetElements.addFormButton.addEventListener(
@@ -446,13 +624,28 @@ const ConvenientFormset = function(options) {
         const forms = formsetElements.formsContainer.querySelectorAll(
             formsetOptions.formSelector + ':not([hidden])'
         );
-        if (formsetOptions.canDeleteForms) {
-            for (let i = 0; i < forms.length; i++) {
-                const form = forms[i];
+        for (let i = 0; i < forms.length; i++) {
+            const form = forms[i];
+
+            if (formsetOptions.canDeleteForms) {
                 const deleteFormButton = form.querySelector(
                         formsetOptions.deleteFormButtonSelector);
                 deleteFormButton.addEventListener(
                     'click', deleteFormButtonClicked.bind(this, form)
+                );
+            }
+
+            if (formsetOptions.canOrderForms) {
+                const moveFormDownButton = form.querySelector(
+                        formsetOptions.moveFormDownButtonSelector);
+                moveFormDownButton.addEventListener(
+                    'click', moveFormDownButtonClicked.bind(this, form)
+                );
+
+                const moveFormUpButton = form.querySelector(
+                        formsetOptions.moveFormUpButtonSelector);
+                moveFormUpButton.addEventListener(
+                    'click', moveFormUpButtonClicked.bind(this, form)
                 );
             }
         }
