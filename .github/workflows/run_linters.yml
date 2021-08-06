@@ -4,41 +4,48 @@ name: Linters
 on:
   pull_request:
     branches:
-      - '**'
+      - "**"
     tags-ignore:
-      - '**'
+      - "**"
   push:
     branches:
-      - '**'
+      - "**"
     tags-ignore:
-      - '**'
+      - "**"
 
 jobs:
   ESLint:
-    environment: linting_environment
     runs-on: ubuntu-latest
+
     steps:
       - name: Check-out repository
         uses: actions/checkout@v2
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: "12"
+
       - name: Install dependencies
         run: npm install
+
       - name: Run linter
         run: npm run lint
+
   Flake8:
-    environment: linting_environment
     runs-on: ubuntu-latest
+
     steps:
       - name: Check-out repository
         uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: "3.9"
+
       - name: Install `tox`
         run: python3 -m pip install tox
+
       - name: Run linter
         run: python3 -m tox -e flake8
