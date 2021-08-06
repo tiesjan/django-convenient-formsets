@@ -9,7 +9,7 @@ def test_missing_options1(live_server, selenium):
     required options have not been specified.
     """
     # Load webpage for test
-    params = {'template_name': 'initialization/missing_options1.html'}
+    params = {'template_name': 'initialization/missing_options_1.html'}
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
@@ -31,7 +31,7 @@ def test_missing_options2(live_server, selenium):
     options that are conditionally required have not been specified.
     """
     # Load webpage for test
-    params = {'template_name': 'initialization/missing_options2.html'}
+    params = {'template_name': 'initialization/missing_options_2.html'}
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
@@ -44,7 +44,8 @@ def test_missing_options2(live_server, selenium):
         '[ConvenientFormset] Missing required options: '
         '`formsetPrefix`, `formsContainerSelector`, `formSelector`, '
         '`addFormButtonSelector`, `emptyFormSelector`, '
-        '`deleteFormButtonSelector`'
+        '`deleteFormButtonSelector`, `moveFormDownButtonSelector`, '
+        '`moveFormUpButtonSelector`'
     ]
 
 
@@ -54,7 +55,7 @@ def test_missing_formset_elements1(live_server, selenium):
     required formset elements are missing.
     """
     # Load webpage for test
-    params = {'template_name': 'initialization/missing_formset_elements1.html'}
+    params = {'template_name': 'initialization/missing_formset_elements_1.html'}
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
@@ -73,10 +74,11 @@ def test_missing_formset_elements1(live_server, selenium):
 def test_missing_formset_elements2(live_server, selenium):
     """
     Asserts the ConvenientFormset instantiation raises an error message when
-    the `deleteFormButtonSelector` cannot be found in the empty form.
+    the `deleteFormButtonSelector`, the `moveFormDownButtonSelector` and the
+    `moveFormUpButtonSelector` cannot be found in the empty form.
     """
     # Load webpage for test
-    params = {'template_name': 'initialization/missing_formset_elements2.html'}
+    params = {'template_name': 'initialization/missing_formset_elements_2.html'}
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
@@ -87,17 +89,19 @@ def test_missing_formset_elements2(live_server, selenium):
     ]
     assert error_messages == [
         '[ConvenientFormset] Unable to find DOM elements in empty form with '
-        'selectors: `#delete-form-button`'
+        'selectors: `#delete-form-button`, `#move-form-down-button`, '
+        '`#move-form-up-button`, `input[name$="ORDER"]`'
     ]
 
 
 def test_missing_formset_elements3(live_server, selenium):
     """
     Asserts the ConvenientFormset instantiation raises an error message when
-    the `deleteFormButtonSelector` cannot be found in visible forms.
+    the `deleteFormButtonSelector`, the `moveFormDownButtonSelector` and the
+    `moveFormUpButtonSelector` cannot be found in visible forms.
     """
     # Load webpage for test
-    params = {'template_name': 'initialization/missing_formset_elements3.html'}
+    params = {'template_name': 'initialization/missing_formset_elements_3.html'}
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
@@ -108,7 +112,8 @@ def test_missing_formset_elements3(live_server, selenium):
     ]
     assert error_messages == [
         '[ConvenientFormset] Unable to find DOM elements in one or more '
-        'visible forms with selectors: `#delete-form-button`'
+        'visible forms with selectors: `#delete-form-button`, '
+        '`#move-form-down-button`, `#move-form-up-button`, `input[name$="ORDER"]`'
     ]
 
 
