@@ -13,7 +13,7 @@ class ConvenientFormsetsBase(object):
         Backports overriding of widget for `DELETION_FIELD_NAME` to Django 3.2
         and lower, and widget for `ORDERING_FIELD_NAME` to Django 2.2.
         """
-        super(ConvenientFormsetsBase, self).add_fields(form, index)
+        super().add_fields(form, index)
 
         if django.VERSION < (4, 0):
             if DELETION_FIELD_NAME in form.fields:
@@ -57,7 +57,7 @@ class ConvenientFormsetsBase(object):
         convenient_formsets_media = forms.Media(
             js=('convenient_formsets/convenient_formsets.{}'.format(js_ext),)
         )
-        forms_media = super(ConvenientFormsetsBase, self).media
+        forms_media = super().media
         return convenient_formsets_media + forms_media
 
 

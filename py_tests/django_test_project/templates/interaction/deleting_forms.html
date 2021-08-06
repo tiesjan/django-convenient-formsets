@@ -28,15 +28,15 @@
 <!-- Note: form input elements have `name` attribute only -->
 <div id="formset">
     <div id="forms-container">
-        <!-- Forms including DELETE inputs -->
+        <!-- Forms including DELETE inputs (initial forms) -->
         <div class="form">
             <input type="text" name="formset-0-user" value="user0">
-            <input type="hidden" name="formset-0-DELETE">
+            <input type="hidden" name="formset-0-DELETE" value="">
             <input type="button" id="delete-form-button" value="Delete form">
         </div>
         <div class="form">
             <input type="text" name="formset-1-user" value="user1">
-            <input type="hidden" name="formset-1-DELETE">
+            <input type="hidden" name="formset-1-DELETE" value="">
             <input type="button" id="delete-form-button" value="Delete form">
         </div>
         <!-- Forms excluding DELETE inputs -->

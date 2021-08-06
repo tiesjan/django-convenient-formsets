@@ -140,10 +140,10 @@ const ConvenientFormset = function(options) {
             const labelElements = form.querySelectorAll('label');
             for (let j = 0; j < labelElements.length; j++) {
                 const labelElement = labelElements[j];
-                if (labelElement.hasAttribute('for')) {
-                    let attrValue = labelElement.getAttribute('for');
+                if (labelElement.htmlFor) {
+                    let attrValue = labelElement.htmlFor;
                     attrValue = attrValue.replace(idRegex, idReplacement);
-                    labelElement.setAttribute('for', attrValue);
+                    labelElement.htmlFor = attrValue;
                 }
             }
 
@@ -154,15 +154,15 @@ const ConvenientFormset = function(options) {
             );
             for (let j = 0; j < inputElements.length; j++) {
                 const inputElement = inputElements[j];
-                if (inputElement.hasAttribute('id')) {
-                    let attrValue = inputElement.getAttribute('id');
+                if (inputElement.id) {
+                    let attrValue = inputElement.id;
                     attrValue = attrValue.replace(idRegex, idReplacement);
-                    inputElement.setAttribute('id', attrValue);
+                    inputElement.id = attrValue;
                 }
-                if (inputElement.hasAttribute('name')) {
-                    let attrValue = inputElement.getAttribute('name');
+                if (inputElement.name) {
+                    let attrValue = inputElement.name;
                     attrValue = attrValue.replace(idRegex, idReplacement);
-                    inputElement.setAttribute('name', attrValue);
+                    inputElement.name = attrValue;
                 }
             }
         }
@@ -172,7 +172,7 @@ const ConvenientFormset = function(options) {
         /*
          * Updates the `TOTAL_FORMS` input in the management form to the number
          * of forms in the formset, regardless of whether it has been marked
-         * for deletion. Invoked after forms have been added or removed.
+         * for deletion. Invoked after forms have been added or deleted.
          */
         const allForms = formsetElements.formsContainer.querySelectorAll(
             formsetOptions.formSelector
@@ -263,16 +263,16 @@ const ConvenientFormset = function(options) {
     function deleteFormButtonClicked(form) {
         /*
          * Event handler for clicks on the `deleteFormButton`. Expects `form`
-         * as a bound argument. If a DELETE input field is present in the form,
-         * it's set to 'on' and the form is hidden. Otherwise the form is
-         * removed altogether from the DOM.
+         * as a bound argument. If a DELETE input element is present in the
+         * form, it's set to 'on' and the form is hidden. Otherwise the form is
+         * removed from the DOM altogether.
          *
          * In case the `hideAddFormButtonOnMaxForms` option is set to `true`,
          * it updates the visibility of the `addFormButton`.
          */
-        const deleteField = form.querySelector('input[name$="DELETE"]');
-        if (deleteField !== null) {
-            deleteField.value = 'on';
+        const deleteElement = form.querySelector('input[name$="DELETE"]');
+        if (deleteElement !== null) {
+            deleteElement.value = 'on';
             form.hidden = true;
         }
         else {
@@ -602,8 +602,8 @@ const ConvenientFormset = function(options) {
         );
         for (let i = 0; i < forms.length; i++) {
             const form = forms[i];
-            const deleteField = form.querySelector('input[name$="DELETE"]');
-            if (deleteField !== null && deleteField.value === 'on') {
+            const deleteElement = form.querySelector('input[name$="DELETE"]');
+            if (deleteElement !== null && deleteElement.value === 'on') {
                 form.hidden = true;
             }
         }
