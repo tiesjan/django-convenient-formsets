@@ -13,7 +13,7 @@ on:
     tags-ignore:
       - "**"
   schedule:
-    - cron: "0 18 * * 5"  # Run every Friday at 18:00 UTC
+    - cron: "0 18 1 * *"  # Run first day of the month at 18:00 UTC
 
 concurrency: end_to_end_testing_environment
 
@@ -21,6 +21,9 @@ jobs:
   Test:
     environment: end_to_end_testing_environment
     runs-on: ubuntu-latest
+
+    env:
+      PY_COLORS: "1"
 
     strategy:
       max-parallel: 4
@@ -44,6 +47,9 @@ jobs:
             version: "11"
           - platform: "WIN10"
             browserName: "edge"
+            version: "16"
+          - platform: "WIN10"
+            browserName: "edge"
             version: "latest"
           - platform: "WIN10"
             browserName: "opera"
@@ -60,17 +66,9 @@ jobs:
 
           # Mobile browsers
           - platformName: "iOS"
-            deviceName: "iPhone 6s Plus"
-            browserName: "safari"
-            version: "10.3"
-          - platformName: "iOS"
             deviceName: "iPhone 12 Pro"
             browserName: "safari"
             version: "14.2"
-          - platformName: "Android"
-            deviceName: "Pixel 2"
-            browserName: "chrome"
-            version: "7.1"
           - platformName: "Android"
             deviceName: "Galaxy S21"
             browserName: "chrome"
@@ -90,14 +88,15 @@ jobs:
 
       - name: Generate unique TestingBot Tunnel ID
         run: >
-          echo "TUNNEL_ID=TB-$(cat /proc/sys/kernel/random/uuid)" >> $GITHUB_ENV
+          echo "TESTINGBOT_TUNNEL_ID=TB-$(cat /proc/sys/kernel/random/uuid)" >>
+          $GITHUB_ENV
 
       - name: Set up TestingBot Tunnel
         uses: testingbot/testingbot-tunnel-action@v1.1.0
         with:
           key: "${{ secrets.TESTINGBOT_KEY }}"
           secret: "${{ secrets.TESTINGBOT_SECRET }}"
-          tunnelIdentifier: "${{ env.TUNNEL_ID }}"
+          tunnelIdentifier: "${{ env.TESTINGBOT_TUNNEL_ID }}"
 
       - name: Dump target capabilities to JSON file
         run: >
@@ -108,7 +107,7 @@ jobs:
         run: >
           python3 -m tox -e py3-end2end --
           --driver TestingBot
-          --capability tunnel-identifier "${{ env.TUNNEL_ID }}"
+          --capability tunnel-identifier "${{ env.TESTINGBOT_TUNNEL_ID }}"
           --capability selenium-host "http://localhost"
           --capability selenium-port "4445"
           --capability build "End-to-end tests #${{ github.run_number }}"

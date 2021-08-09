@@ -13,11 +13,14 @@ on:
     tags-ignore:
       - "**"
   schedule:
-    - cron: "0 18 * * 5"  # Run every Friday at 18:00 UTC
+    - cron: "0 18 1 * *"  # Run first day of the month at 18:00 UTC
 
 jobs:
   Test:
     runs-on: ubuntu-latest
+
+    env:
+      PY_COLORS: "1"
 
     strategy:
       matrix:

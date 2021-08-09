@@ -138,7 +138,7 @@ def test_missing_management_form(live_server, selenium):
     ]
 
 
-def test_hiding_forms_marked_for_deletion1(live_server, selenium):
+def test_hiding_forms_marked_for_deletion1(live_server, selenium, is_legacy_edge):
     """
     ConvenientFormset has the `deleteFormButtonSelector` option set, hiding
     forms marked for deletion to be hidden when initializing.
@@ -159,11 +159,16 @@ def test_hiding_forms_marked_for_deletion1(live_server, selenium):
     forms = selenium.find_elements(
             By.CSS_SELECTOR, '#formset #forms-container .form')
     assert len(forms) == 2
-    assert forms[0].get_attribute('hidden') is not None
-    assert forms[1].get_attribute('hidden') is None
+
+    if is_legacy_edge(getattr(selenium, 'desired_capabilities', {})):
+        assert forms[0].get_attribute('hidden') == 'true'
+        assert forms[1].get_attribute('hidden') == 'false'
+    else:
+        assert forms[0].get_attribute('hidden') is not None
+        assert forms[1].get_attribute('hidden') is None
 
 
-def test_hiding_forms_marked_for_deletion2(live_server, selenium):
+def test_hiding_forms_marked_for_deletion2(live_server, selenium, is_legacy_edge):
     """
     ConvenientFormset has the `deleteFormButtonSelector` option *NOT* set,
     leaving forms marked for deletion alone when initializing.
@@ -184,11 +189,16 @@ def test_hiding_forms_marked_for_deletion2(live_server, selenium):
     forms = selenium.find_elements(
             By.CSS_SELECTOR, '#formset #forms-container .form')
     assert len(forms) == 2
-    assert forms[0].get_attribute('hidden') is None
-    assert forms[1].get_attribute('hidden') is None
+
+    if is_legacy_edge(getattr(selenium, 'desired_capabilities', {})):
+        assert forms[0].get_attribute('hidden') == 'false'
+        assert forms[1].get_attribute('hidden') == 'false'
+    else:
+        assert forms[0].get_attribute('hidden') is None
+        assert forms[1].get_attribute('hidden') is None
 
 
-def test_hiding_add_form_button_on_max_forms1(live_server, selenium):
+def test_hiding_add_form_button_on_max_forms1(live_server, selenium, is_legacy_edge):
     """
     ConvenientFormset has the `hideAddFormButtonOnMaxForms` option set to
     `true`, hiding the add form button when initializing.
@@ -208,10 +218,13 @@ def test_hiding_add_form_button_on_max_forms1(live_server, selenium):
     # Assert add form button does have the `hidden` attribute set
     add_form_button = selenium.find_element(
             By.CSS_SELECTOR, '#formset #add-form-button')
-    assert add_form_button.get_attribute('hidden') is not None
+    if is_legacy_edge(getattr(selenium, 'desired_capabilities', {})):
+        assert add_form_button.get_attribute('hidden') == 'true'
+    else:
+        assert add_form_button.get_attribute('hidden') is not None
 
 
-def test_hiding_add_form_button_on_max_forms2(live_server, selenium):
+def test_hiding_add_form_button_on_max_forms2(live_server, selenium, is_legacy_edge):
     """
     ConvenientFormset has the `hideAddFormButtonOnMaxForms` option set to
     `false`, leaving the add form button alone when initializing.
@@ -231,4 +244,7 @@ def test_hiding_add_form_button_on_max_forms2(live_server, selenium):
     # Assert add form button does NOT have the `hidden` attribute set
     add_form_button = selenium.find_element(
             By.CSS_SELECTOR, '#formset #add-form-button')
-    assert add_form_button.get_attribute('hidden') is None
+    if is_legacy_edge(getattr(selenium, 'desired_capabilities', {})):
+        assert add_form_button.get_attribute('hidden') == 'false'
+    else:
+        assert add_form_button.get_attribute('hidden') is None
