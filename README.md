@@ -8,7 +8,7 @@
 
 This Django app aims to make formsets convenient for users and developers
 alike. It extends Django's built-in formset classes and includes support for
-dynamically adding, deleting and ordering of forms on the webpage.
+dynamically adding, deleting and ordering of forms on the client side.
 
 
 #### Supported platforms
@@ -41,8 +41,8 @@ Other platform versions may work, but are not actively tested.
 1. Create a formset in your Python code:
 
     ```python
-    from django import forms
     from convenient_formsets import ConvenientBaseFormSet
+    from django import forms
 
 
     class EmailForm(forms.Form):
@@ -53,7 +53,6 @@ Other platform versions may work, but are not actively tested.
         formset=ConvenientBaseFormset,
         can_delete=True,
         can_order=True,
-        extra=1,
     )
 
     email_formset = EmailFormSet(prefix='email-formset')
@@ -61,7 +60,7 @@ Other platform versions may work, but are not actively tested.
 
 2. Render formset in your template and add JavaScript code for initialization:
 
-    ```html
+    ```htmldjango
     <!doctype html>
     <html>
     <head>
@@ -73,14 +72,14 @@ Other platform versions may work, but are not actively tested.
             window.addEventListener('load', function(event) {
                 new ConvenientFormset({
                     'formsetPrefix': '{{ email_formset.prefix }}',
-                    'formsContainerSelector': '#formset #forms-container',
-                    'formSelector': '.form',
+                    'formsContainerSelector': '#email-formset #email-forms-container',
+                    'formSelector': '.email-form',
 
                     'canAddForms': true,
-                    'addFormButtonSelector': '#formset #add-form-button',
-                    'emptyFormSelector': '#formset #empty-form .form',
+                    'addFormButtonSelector': '#email-formset #add-form-button',
+                    'emptyFormSelector': '#email-formset #empty-form .email-form',
 
-                    'canAddForms': true,
+                    'canDeleteForms': true,
                     'deleteFormButtonSelector': '#delete-form-button',
 
                     'canOrderForms': true,
@@ -138,12 +137,13 @@ The Python classes `ConvenientBaseFormSet` and `ConvenientBaseModelFormSet`
 extend Django's built-in `BaseFormSet` and `BaseModelFormset` by:
 - Overriding `deletion_widget` for the `DELETE` field and `ordering_widget` for
   the `ORDER` field of `BaseFormSet`. They default to the `forms.HiddenInput`
-  in order to hide them from the user.  
+  widget in order to hide them from the user.  
   _**Note:** the [`deletion_widget` attribute and corresponding method][1] are
   available from Django 4.0 and later, and the [`ordering_widget` attribute and
   corresponding method][2] are available from Django 3.0 and later. They are
-  backported to older versions supported by this package for your convenience._
-- Including the JavaScript files required for dynamic formsets.
+  backported to older Django versions for your convenience._
+- Including the JavaScript files in the formset's `media` attribute required
+  for dynamic formsets.
 
 [1]: https://docs.djangoproject.com/en/dev/topics/forms/formsets/#deletion-widget
 [2]: https://docs.djangoproject.com/en/dev/topics/forms/formsets/#ordering-widget
@@ -157,8 +157,8 @@ your template better, as long as you stick to the basic structure shown above.
 Creating an instance of the JavaScript constructor function `ConvenientFormset`
 allows a user to add and delete forms within the rendered formset. When a user
 makes changes, the management form is updated accordingly. The constructor
-function can be passed the parameters outlined below. In case the initialization
-of `ConvenientFormset` fails, check the browser console for some helpful output.
+function can be passed the parameters outlined below. In case initialization
+fails, check the browser console for some helpful output.
 
 ###### GENERAL
 <dl>
@@ -208,19 +208,19 @@ of `ConvenientFormset` fails, check the browser console for some helpful output.
 
 
 ## Internals
-Form deletion is handled in either of the following ways:
+**Form deletion** is handled in either of the following ways:
 1. If a form includes a `DELETE` field, the field's value is updated and the
-   form will be hidden by applying the `hidden` HTML attribute. The deletion
+   form will be hidden by applying the "hidden" HTML attribute. The deletion
    will then be handled server side.
 2. If the form _does not_ include a `DELETE` field, the form is removed from
    the DOM altogether and will not be submitted to the server.
 
-Form ordering is handled by moving visible forms above the previous (up) and
-below the next (down) for visual feedback, and by swapping the values of their
-`ORDER` fields for the server side. This means that the original values are
-kept, even when in-between forms are deleted. New forms will see the initial
-value for their `ORDER` field set to the last visible form's `ORDER` field
-value + 1, as they're added to the bottom of all forms.
+**Form ordering** is handled by moving visible forms above the previous (up)
+and below the next (down) for visual feedback, and by swapping the values of
+their `ORDER` fields for the server side. This means that the original values
+are kept, even when in-between forms are deleted. New forms will see the
+initial value for their `ORDER` field set to the last visible form's `ORDER`
+field value + 1, as they're added to the bottom of all forms.
 
 
 ## License

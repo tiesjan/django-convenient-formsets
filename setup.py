@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 setuptools.setup(
     # Metadata
     name='django-convenient-formsets',
-    version='0.9.3',
+    version='0.9.4',
     license='BSD',
     author='Ties Jan Hefting',
     author_email='hello@tiesjan.com',
