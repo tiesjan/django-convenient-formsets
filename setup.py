@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 setuptools.setup(
     # Metadata
     name='django-convenient-formsets',
-    version='0.9.4',
+    version='1.0',
     license='BSD',
     author='Ties Jan Hefting',
     author_email='hello@tiesjan.com',
@@ -20,7 +20,7 @@ setuptools.setup(
         'Bugs': 'https://github.com/tiesjan/django-convenient-formsets/issues',
     },
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django :: 2.2',
         'Framework :: Django :: 3.0',
