@@ -47,7 +47,7 @@ jobs:
             version: "11"
           - platform: "WIN10"
             browserName: "edge"
-            version: "16"
+            version: "79"
           - platform: "WIN10"
             browserName: "edge"
             version: "latest"

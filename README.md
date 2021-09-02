@@ -14,7 +14,7 @@ dynamically adding, deleting and ordering of forms on the client side.
 #### Supported platforms
 - Django: 3.2, 3.1, 3.0, 2.2
 - Python: 3.9, 3.8, 3.7, 3.6, 3.5 (Django 2.2 only)
-- Browsers: Chrome 48+, Firefox 44+, Internet Explorer 11, Edge 16+, Opera 50+,
+- Browsers: Chrome 48+, Firefox 44+, Internet Explorer 11, Edge 79+, Opera 50+,
   Safari 11+, latest Safari on iOS, latest Chrome on Android
 
 Other platform versions may work, but are not actively tested.
