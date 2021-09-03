@@ -6,9 +6,9 @@
 [![TestingBot Test Status](https://testingbot.com/buildstatus/e67ac1c27fb0bd343c6f9ec32707a626)](https://testingbot.com/builds/e67ac1c27fb0bd343c6f9ec32707a626)
 
 
-This Django app aims to make formsets convenient for users and developers
-alike. It extends Django's built-in formset classes and includes support for
-dynamically adding, deleting and ordering of forms on the client side.
+This Django app aims to make dynamic formsets convenient for users and
+developers alike. It extends Django's built-in formset classes and includes
+support for adding, deleting and ordering of forms on the client side.
 
 
 #### Supported platforms
@@ -142,7 +142,7 @@ extend Django's built-in `BaseFormSet` and `BaseModelFormset` by:
   available from Django 4.0 and later, and the [`ordering_widget` attribute and
   corresponding method][2] are available from Django 3.0 and later. They are
   backported to older Django versions for your convenience._
-- Including the JavaScript files in the formset's `media` attribute required
+- Including the JavaScript file in the formset's `media` attribute required
   for dynamic formsets.
 
 [1]: https://docs.djangoproject.com/en/dev/topics/forms/formsets/#deletion-widget

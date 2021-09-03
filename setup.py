@@ -12,7 +12,7 @@ setuptools.setup(
     license='BSD',
     author='Ties Jan Hefting',
     author_email='hello@tiesjan.com',
-    description='Django formsets made convenient for users and developers alike.',
+    description='Django dynamic formsets made convenient for users and developers alike.',
     long_description=LONG_DESCRIPTION,
     long_description_content_type='text/markdown',
     url='https://github.com/tiesjan/django-convenient-formsets',
