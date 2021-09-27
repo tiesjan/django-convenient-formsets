@@ -34,7 +34,7 @@ class ConvenientFormsetsBase(object):
         if django.VERSION < (4, 0):
             return self.deletion_widget()
         else:
-            return super().get_ordering_widget()
+            return super().get_deletion_widget()
 
     @classmethod
     def get_ordering_widget(self):
