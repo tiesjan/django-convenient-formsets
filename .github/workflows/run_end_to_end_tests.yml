@@ -12,8 +12,6 @@ on:
       - "**"
     tags-ignore:
       - "**"
-  schedule:
-    - cron: "0 18 15 * *"  # Run on the 15th day of the month at 18:00 UTC
 
 concurrency: end_to_end_testing_environment
 
