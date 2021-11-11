@@ -133,11 +133,12 @@ Other platform versions may work, but are not actively tested.
 ## Usage
 
 ### Server side
-The Python classes `ConvenientBaseFormSet` and `ConvenientBaseModelFormSet`
-extend Django's built-in `BaseFormSet` and `BaseModelFormset` by:
+The Python classes `ConvenientBaseFormSet`, `ConvenientBaseModelFormSet` and
+`ConvenientBaseInlineFormSet` extend Django's built-in `BaseFormSet`,
+`BaseModelFormset` and `BaseInlineFormSet` by:
 - Overriding `deletion_widget` for the `DELETE` field and `ordering_widget` for
-  the `ORDER` field of `BaseFormSet`. They default to the `forms.HiddenInput`
-  widget in order to hide them from the user.  
+  the `ORDER` field. They default to the `forms.HiddenInput` widget in order to
+  hide them from the user.  
   _**Note:** the [`deletion_widget` attribute and corresponding method][1] are
   available from Django 4.0 and later, and the [`ordering_widget` attribute and
   corresponding method][2] are available from Django 3.0 and later. They are

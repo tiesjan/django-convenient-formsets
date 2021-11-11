@@ -67,3 +67,7 @@ class ConvenientBaseFormSet(ConvenientFormsetsBase, forms.BaseFormSet):
 
 class ConvenientBaseModelFormSet(ConvenientFormsetsBase, forms.BaseModelFormSet):
     pass
+
+
+class ConvenientBaseInlineFormSet(ConvenientFormsetsBase, forms.BaseInlineFormSet):
+    pass
