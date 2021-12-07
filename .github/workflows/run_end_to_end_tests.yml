@@ -19,6 +19,7 @@ jobs:
   Test:
     environment: end_to_end_testing_environment
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     env:
       PY_COLORS: "1"
