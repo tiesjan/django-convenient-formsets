@@ -1,22 +1,13 @@
 ---
 name: End-to-end tests
 
-on:
-  pull_request:
-    branches:
-      - "**"
-    tags-ignore:
-      - "**"
-  push:
-    branches:
-      - "**"
-    tags-ignore:
-      - "**"
+on: workflow_dispatch
 
 concurrency: end_to_end_testing_environment
 
 jobs:
   Test:
+    continue-on-error: true
     environment: end_to_end_testing_environment
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -25,7 +16,7 @@ jobs:
       PY_COLORS: "1"
 
     strategy:
-      max-parallel: 4
+      max-parallel: 3
       matrix:
         capabilities:
           # Desktop browsers
