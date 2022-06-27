@@ -50,7 +50,7 @@ Other platform versions may work, but are not actively tested.
 
     EmailFormSet = forms.formset_factory(
         EmailForm,
-        formset=ConvenientBaseFormset,
+        formset=ConvenientBaseFormSet,
         can_delete=True,
         can_order=True,
     )
@@ -135,7 +135,7 @@ Other platform versions may work, but are not actively tested.
 ### Server side
 The Python classes `ConvenientBaseFormSet`, `ConvenientBaseModelFormSet` and
 `ConvenientBaseInlineFormSet` extend Django's built-in `BaseFormSet`,
-`BaseModelFormset` and `BaseInlineFormSet` by:
+`BaseModelFormSet` and `BaseInlineFormSet` by:
 - Overriding `deletion_widget` for the `DELETE` field and `ordering_widget` for
   the `ORDER` field. They default to the `forms.HiddenInput` widget in order to
   hide them from the user.  
