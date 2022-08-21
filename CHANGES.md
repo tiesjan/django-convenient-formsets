@@ -1,11 +1,15 @@
 # Changes
 
+## Version 1.2
+- Add support for Django 4.0
+- Fix spelling in documentation
+
 ## Version 1.1.1
 - Fixes in packaging of library
 
 ## Version 1.1
 - Add support for Django 4.0
-- Add support for InlineFormSets
+- Add support for InlineFormSets (thanks to @joahim)
 - Bump minimum supported Edge version to 79
 - Fix bug in `get_deletion_widget()` backport
 

@@ -1,6 +1,6 @@
 /*!
- * Convenient Formsets 1.1.1 (https://github.com/tiesjan/django-convenient-formsets/)
- * Copyright 2021 Ties Jan Hefting
+ * Convenient Formsets 1.2 (https://github.com/tiesjan/django-convenient-formsets/)
+ * Copyright 2021-present Ties Jan Hefting
  * Licensed under BSD 3-Clause License
  */
 'use strict';
