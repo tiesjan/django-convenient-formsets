@@ -1,5 +1,6 @@
 graft convenient_formsets
 graft py_tests
+include CHANGES.md
 include LICENSE
 include README.md
 

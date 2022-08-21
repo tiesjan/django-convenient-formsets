@@ -1,7 +1,7 @@
 # Changes
 
 ## Version 1.2
-- Add support for Django 4.0
+- Add support for Django 4.1
 - Fix spelling in documentation
 
 ## Version 1.1.1
