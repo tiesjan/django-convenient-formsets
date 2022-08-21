@@ -18,6 +18,7 @@ setuptools.setup(
     url='https://github.com/tiesjan/django-convenient-formsets',
     project_urls={
         'Bugs': 'https://github.com/tiesjan/django-convenient-formsets/issues',
+        'Changes': 'https://github.com/tiesjan/django-convenient-formsets/blob/main/CHANGES.md'
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
