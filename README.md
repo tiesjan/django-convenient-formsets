@@ -12,7 +12,7 @@ support for adding, deleting and ordering of forms on the client side.
 
 
 #### Supported platforms
-- Django: 4.0, 3.2, 3.1, 3.0, 2.2
+- Django: 4.1, 4.0, 3.2, 3.1, 3.0, 2.2
 - Python: 3.10, 3.9, 3.8, 3.7, 3.6, 3.5
 - Browsers: Chrome 48+, Firefox 44+, Internet Explorer 11, Edge 79+, Opera 50+,
   Safari 11+, latest Safari on iOS, latest Chrome on Android
