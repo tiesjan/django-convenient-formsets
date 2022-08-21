@@ -1,5 +1,8 @@
 # Changes
 
+## Version 1.2.1
+- Fixes in Changelog and include it when packaging
+
 ## Version 1.2
 - Add support for Django 4.1
 - Fix spelling in documentation
