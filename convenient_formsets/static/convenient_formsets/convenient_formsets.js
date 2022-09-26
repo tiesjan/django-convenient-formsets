@@ -260,7 +260,7 @@ const ConvenientFormset = function(options) {
         updateManagementForm();
 
         // Dispatch event
-        formsetElements.formsContainer.dispatchEvent(new CustomEvent("convenientformset:added", {
+        formsetElements.formsContainer.dispatchEvent(new CustomEvent('convenientformset:added', {
             bubbles: true,
             detail: {
                 formsetPrefix: formsetOptions.formsetPrefix,
@@ -297,7 +297,7 @@ const ConvenientFormset = function(options) {
         updateManagementForm();
 
         // Dispatch event
-        document.dispatchEvent(new CustomEvent("convenientformset:removed", {
+        document.dispatchEvent(new CustomEvent('convenientformset:removed', {
             detail: {
                 formsetPrefix: formsetOptions.formsetPrefix,
             },
