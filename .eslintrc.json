@@ -3,7 +3,7 @@
 
     "extends": "eslint:recommended",
     "rules": {
-        "arrow-spacing": ["error", {"before": false, "after": true}],
+        "arrow-spacing": ["error", {"before": true, "after": true}],
         "camelcase": ["error"],
         "comma-spacing": ["error", {"before": false, "after": true}],
         "curly": ["error"],
