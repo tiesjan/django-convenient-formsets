@@ -260,12 +260,14 @@ const ConvenientFormset = function(options) {
         updateManagementForm();
 
         // Dispatch event
-        formsetElements.formsContainer.dispatchEvent(new CustomEvent('convenientformset:added', {
-            bubbles: true,
-            detail: {
-                formsetPrefix: formsetOptions.formsetPrefix,
-            },
-        }));
+        formsetElements.formsContainer.dispatchEvent(
+            new CustomEvent('convenient_formset:added', {
+                bubbles: true,
+                detail: {
+                    formsetPrefix: formsetOptions.formsetPrefix,
+                },
+            })
+        );
     }
 
     function deleteFormButtonClicked(form) {
@@ -297,11 +299,13 @@ const ConvenientFormset = function(options) {
         updateManagementForm();
 
         // Dispatch event
-        document.dispatchEvent(new CustomEvent('convenientformset:removed', {
-            detail: {
-                formsetPrefix: formsetOptions.formsetPrefix,
-            },
-        }));
+        document.dispatchEvent(
+            new CustomEvent('convenient_formset:removed', {
+                detail: {
+                    formsetPrefix: formsetOptions.formsetPrefix,
+                },
+            })
+        );
     }
 
     function moveFormDownButtonClicked(form) {
