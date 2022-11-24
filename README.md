@@ -14,8 +14,8 @@ custom logic.
 
 
 #### Supported platforms
-- Django: 4.1, 4.0, 3.2, 3.1, 3.0, 2.2
-- Python: 3.10, 3.9, 3.8, 3.7, 3.6, 3.5
+- Django: 4.0+
+- Python: 3.11, 3.10, 3.9, 3.8, 3.7
 - Browsers: Chrome 48+, Firefox 44+, Internet Explorer 11, Edge 79+, Opera 50+,
   Safari 11+, latest Safari on iOS, latest Chrome on Android
 
@@ -140,16 +140,9 @@ The Python classes `ConvenientBaseFormSet`, `ConvenientBaseModelFormSet` and
 `BaseModelFormSet` and `BaseInlineFormSet` by:
 - Overriding `deletion_widget` for the `DELETE` field and `ordering_widget` for
   the `ORDER` field. They default to the `forms.HiddenInput` widget in order to
-  hide them from the user.  
-  _**Note:** the [`deletion_widget` attribute and corresponding method][1] are
-  available from Django 4.0 and later, and the [`ordering_widget` attribute and
-  corresponding method][2] are available from Django 3.0 and later. They are
-  backported to older Django versions for your convenience._
+  hide them from the user.
 - Including the JavaScript file in the formset's `media` attribute required
   for dynamic formsets.
-
-[1]: https://docs.djangoproject.com/en/dev/topics/forms/formsets/#deletion-widget
-[2]: https://docs.djangoproject.com/en/dev/topics/forms/formsets/#ordering-widget
 
 
 ### Client side
