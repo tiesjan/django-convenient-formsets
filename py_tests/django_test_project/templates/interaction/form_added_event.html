@@ -20,8 +20,9 @@
         });
     });
 
-    window.addEventListener("convenientformset:added", function(event) {
-        document.getElementById("event-log").innerHTML = event.detail.formsetPrefix + " added";
+    document.addEventListener('convenient_formset:added', function(event) {
+        const event_log = document.querySelector('#event-log');
+        event_log.innerHTML += ('added:' + event.detail.formsetPrefix + '\n');
     });
 </script>
 {% endblock%}
@@ -62,5 +63,6 @@
         <input type="hidden" name="formset-MAX_NUM_FORMS" value="5">
     </div>
 </div>
+<hr />
 <pre id="event-log"></pre>
 {% endblock %}

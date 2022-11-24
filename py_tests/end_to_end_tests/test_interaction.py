@@ -14,7 +14,7 @@ def test_adding_forms1(live_server, selenium, is_legacy_edge):
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
-    # Initiate 6 clicks on `addFormButton` (one too many)
+    # Initiate 6 clicks on add form button (one too many)
     add_form_button = selenium.find_element(
             By.CSS_SELECTOR, '#formset #add-form-button')
     for _ in range(6):
@@ -457,17 +457,17 @@ def test_combined_form_actions(live_server, selenium):
         assert element.get_attribute('value') == f'{expected_order_values[i]}'
 
 
-def test_adding_form_event(live_server, selenium, is_legacy_edge):
+def test_form_added_event(live_server, selenium, is_legacy_edge):
     """
-    Test the behavior when adding a form to a formset a javascript event
+    Test the behavior when adding a form to a formset a JavaScript event
     "convenientformset:added" is fired.
     """
     # Load webpage for test
-    params = {'template_name': 'interaction/adding_forms_event.html'}
+    params = {'template_name': 'interaction/form_added_event.html'}
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
-    # Initiate 6 clicks on `addFormButton` (one too many)
+    # Initiate click on add form button
     add_form_button = selenium.find_element(
             By.CSS_SELECTOR, '#formset #add-form-button')
     add_form_button.click()
@@ -483,16 +483,16 @@ def test_adding_form_event(live_server, selenium, is_legacy_edge):
     event_messages = [
         msg.strip() for msg in event_log.text.split('\n') if msg.strip()
     ]
-    assert event_messages == ['formset added']
+    assert event_messages == ['added:formset']
 
 
-def test_deleting_form_event(live_server, selenium, is_legacy_edge):
+def test_form_deleted_event(live_server, selenium, is_legacy_edge):
     """
-    Test the behavior when deleting a form to a formset a javascript event
-    "convenientformset:removed" is fired 2 times.
+    Test the behavior when deleting two forms from a formset, a JavaScript
+    event "convenientformset:removed" is fired both times.
     """
     # Load webpage for test
-    params = {'template_name': 'interaction/deleting_forms_event.html'}
+    params = {'template_name': 'interaction/form_deleted_event.html'}
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
@@ -513,4 +513,4 @@ def test_deleting_form_event(live_server, selenium, is_legacy_edge):
     event_messages = [
         msg.strip() for msg in event_log.text.split('\n') if msg.strip()
     ]
-    assert event_messages == ['formset removed', 'formset removed']
+    assert event_messages == ['removed:formset', 'removed:formset']
