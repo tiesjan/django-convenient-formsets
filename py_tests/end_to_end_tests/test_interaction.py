@@ -3,7 +3,7 @@ from urllib.parse import urlencode
 from selenium.webdriver.common.by import By
 
 
-def test_adding_forms1(live_server, selenium, is_legacy_edge):
+def test_adding_forms1(live_server, selenium):
     """
     Test behavior when adding multiple forms to a formset with 0 initial forms,
     while keeping the add form button visible upon reaching the maximum number
@@ -67,13 +67,10 @@ def test_adding_forms1(live_server, selenium, is_legacy_edge):
     assert max_num_forms_input.get_attribute('value') == '5'
 
     # Assert that add form button does not have the `hidden` attribute set
-    if is_legacy_edge(getattr(selenium, 'desired_capabilities', {})):
-        assert add_form_button.get_attribute('hidden') == 'false'
-    else:
-        assert add_form_button.get_attribute('hidden') is None
+    assert add_form_button.get_attribute('hidden') is None
 
 
-def test_adding_forms2(live_server, selenium, is_legacy_edge):
+def test_adding_forms2(live_server, selenium):
     """
     Test behavior when adding a form to a formset with 2 visible forms of 5
     initial forms.
@@ -139,13 +136,10 @@ def test_adding_forms2(live_server, selenium, is_legacy_edge):
     assert max_num_forms_input.get_attribute('value') == '5'
 
     # Assert that add form button does not have the `hidden` attribute set
-    if is_legacy_edge(getattr(selenium, 'desired_capabilities', {})):
-        assert add_form_button.get_attribute('hidden') == 'false'
-    else:
-        assert add_form_button.get_attribute('hidden') is None
+    assert add_form_button.get_attribute('hidden') is None
 
 
-def test_adding_forms3(live_server, selenium, is_legacy_edge):
+def test_adding_forms3(live_server, selenium):
     """
     Test behavior when adding a form to a formset with 4 visible forms of 4
     initial forms.
@@ -200,13 +194,10 @@ def test_adding_forms3(live_server, selenium, is_legacy_edge):
     assert max_num_forms_input.get_attribute('value') == '5'
 
     # Assert that add form button does have the `hidden` attribute set
-    if is_legacy_edge(getattr(selenium, 'desired_capabilities', {})):
-        assert add_form_button.get_attribute('hidden') == 'true'
-    else:
-        assert add_form_button.get_attribute('hidden') is not None
+    assert add_form_button.get_attribute('hidden') is not None
 
 
-def test_deleting_forms(live_server, selenium, is_legacy_edge):
+def test_deleting_forms(live_server, selenium):
     """
     Test behavior when deleting a form from a formset with 5 visible forms of 2
     initial forms.
@@ -272,10 +263,7 @@ def test_deleting_forms(live_server, selenium, is_legacy_edge):
     # Assert that add form button does not have the `hidden` attribute set
     add_form_button = selenium.find_element(
             By.CSS_SELECTOR, '#formset #add-form-button')
-    if is_legacy_edge(getattr(selenium, 'desired_capabilities', {})):
-        assert add_form_button.get_attribute('hidden') == 'false'
-    else:
-        assert add_form_button.get_attribute('hidden') is None
+    assert add_form_button.get_attribute('hidden') is None
 
 
 def test_ordering_forms1(live_server, selenium):
@@ -457,7 +445,7 @@ def test_combined_form_actions(live_server, selenium):
         assert element.get_attribute('value') == f'{expected_order_values[i]}'
 
 
-def test_form_added_event(live_server, selenium, is_legacy_edge):
+def test_form_added_event(live_server, selenium):
     """
     Test the behavior when adding a form to a formset a JavaScript event
     "convenientformset:added" is fired.
@@ -486,7 +474,7 @@ def test_form_added_event(live_server, selenium, is_legacy_edge):
     assert event_messages == ['added:formset']
 
 
-def test_form_deleted_event(live_server, selenium, is_legacy_edge):
+def test_form_deleted_event(live_server, selenium):
     """
     Test the behavior when deleting two forms from a formset, a JavaScript
     event "convenientformset:removed" is fired both times.
