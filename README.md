@@ -215,8 +215,8 @@ fails, check the browser console for some helpful output.
 #### Events
 When adding or deleting forms, custom JavaScript events are dispatched to allow
 for executing custom JavaScript code. The `convenient_formset:added` event is
-dispatched when forms are added, the `convenient_formset:removed` when forms
-are deleted. Both events will contain the `formsetPrefix` in the event's
+dispatched when forms are added, the `convenient_formset:removed` event when
+forms are deleted. Both events will contain the `formsetPrefix` in the event's
 `detail` property.
 
 These events can be handled in the following way:
