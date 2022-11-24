@@ -1,5 +1,9 @@
 # Changes
 
+## (Unreleased)
+- Add support for JavaScript events when adding or deleting forms in formsets
+  (thanks to @CleitonDeLima)
+
 ## Version 1.2.1
 - Fixes in Changelog and include it when packaging
 

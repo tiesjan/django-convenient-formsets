@@ -14,7 +14,7 @@ def test_adding_forms1(live_server, selenium, is_legacy_edge):
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
-    # Initiate 6 clicks on `addFormButton` (one too many)
+    # Initiate 6 clicks on add form button (one too many)
     add_form_button = selenium.find_element(
             By.CSS_SELECTOR, '#formset #add-form-button')
     for _ in range(6):
@@ -455,3 +455,62 @@ def test_combined_form_actions(live_server, selenium):
             f'formset-{expected_form_indexes[i]}-ORDER'
         )
         assert element.get_attribute('value') == f'{expected_order_values[i]}'
+
+
+def test_form_added_event(live_server, selenium, is_legacy_edge):
+    """
+    Test the behavior when adding a form to a formset a JavaScript event
+    "convenientformset:added" is fired.
+    """
+    # Load webpage for test
+    params = {'template_name': 'interaction/form_added_event.html'}
+    test_url = f'{live_server.url}?{urlencode(params)}'
+    selenium.get(test_url)
+
+    # Initiate click on add form button
+    add_form_button = selenium.find_element(
+            By.CSS_SELECTOR, '#formset #add-form-button')
+    add_form_button.click()
+
+    # Assert errors
+    error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
+    error_messages = [
+        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
+    ]
+    assert error_messages == []
+
+    event_log = selenium.find_element(By.CSS_SELECTOR, '#event-log')
+    event_messages = [
+        msg.strip() for msg in event_log.text.split('\n') if msg.strip()
+    ]
+    assert event_messages == ['added:formset']
+
+
+def test_form_deleted_event(live_server, selenium, is_legacy_edge):
+    """
+    Test the behavior when deleting two forms from a formset, a JavaScript
+    event "convenientformset:removed" is fired both times.
+    """
+    # Load webpage for test
+    params = {'template_name': 'interaction/form_deleted_event.html'}
+    test_url = f'{live_server.url}?{urlencode(params)}'
+    selenium.get(test_url)
+
+    # Initiate click on delete form button of 2nd & 3rd form
+    forms = selenium.find_elements(
+            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms[0].find_element(By.CSS_SELECTOR, '#delete-form-button').click()
+    forms[1].find_element(By.CSS_SELECTOR, '#delete-form-button').click()
+
+    # Assert errors
+    error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
+    error_messages = [
+        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
+    ]
+    assert error_messages == []
+
+    event_log = selenium.find_element(By.CSS_SELECTOR, '#event-log')
+    event_messages = [
+        msg.strip() for msg in event_log.text.split('\n') if msg.strip()
+    ]
+    assert event_messages == ['removed:formset', 'removed:formset']

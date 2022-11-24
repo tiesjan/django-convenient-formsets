@@ -258,6 +258,16 @@ const ConvenientFormset = function(options) {
         // Update the form indexes and the management form
         updateFormIndexes();
         updateManagementForm();
+
+        // Dispatch event
+        formsetElements.formsContainer.dispatchEvent(
+            new CustomEvent('convenient_formset:added', {
+                bubbles: true,
+                detail: {
+                    formsetPrefix: formsetOptions.formsetPrefix,
+                },
+            })
+        );
     }
 
     function deleteFormButtonClicked(form) {
@@ -287,6 +297,15 @@ const ConvenientFormset = function(options) {
         // Update the form indexes and the management form
         updateFormIndexes();
         updateManagementForm();
+
+        // Dispatch event
+        document.dispatchEvent(
+            new CustomEvent('convenient_formset:removed', {
+                detail: {
+                    formsetPrefix: formsetOptions.formsetPrefix,
+                },
+            })
+        );
     }
 
     function moveFormDownButtonClicked(form) {
