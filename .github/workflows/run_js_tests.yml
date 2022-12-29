@@ -1,0 +1,23 @@
+name: JavaScript tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: node${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:
+          - '14'
+    steps:
+      - name: Check-out repository
+        uses: actions/checkout@v2
+      - name: Set up Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm run test

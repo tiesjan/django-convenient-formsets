@@ -9,10 +9,13 @@
     },
     "devDependencies": {
         "eslint": "^7.22.0",
+        "jsdom": "^16.5.0",
+        "tap": "^14.11.0",
         "terser": "^5.7.0"
     },
     "scripts": {
         "lint": "eslint convenient_formsets/static/convenient_formsets/*.js",
-        "minify": "terser --comments '/^!/' --format 'quote_style=3' --output convenient_formsets/static/convenient_formsets/convenient_formsets.min.js -- convenient_formsets/static/convenient_formsets/convenient_formsets.js"
+        "minify": "terser --comments '/^!/' --format 'quote_style=3' --output convenient_formsets/static/convenient_formsets/convenient_formsets.min.js -- convenient_formsets/static/convenient_formsets/convenient_formsets.js",
+        "test": "tap --no-coverage --reporter classic js_tests/test_*.js"
     }
 }
