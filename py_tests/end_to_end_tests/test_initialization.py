@@ -20,8 +20,8 @@ def test_missing_options1(live_server, selenium):
     ]
     assert error_messages == [
         '[ConvenientFormset] Missing required options: '
-        '`formsetPrefix`, `formsContainerSelector`, `formSelector`, '
-        '`addFormButtonSelector`, `emptyFormTemplateSelector`'
+        '"formsetPrefix", "formsContainerSelector", "formSelector", '
+        '"addFormButtonSelector", "emptyFormTemplateSelector"'
     ]
 
 
@@ -42,10 +42,10 @@ def test_missing_options2(live_server, selenium):
     ]
     assert error_messages == [
         '[ConvenientFormset] Missing required options: '
-        '`formsetPrefix`, `formsContainerSelector`, `formSelector`, '
-        '`addFormButtonSelector`, `emptyFormTemplateSelector`, '
-        '`deleteFormButtonSelector`, `moveFormDownButtonSelector`, '
-        '`moveFormUpButtonSelector`'
+        '"formsetPrefix", "formsContainerSelector", "formSelector", '
+        '"addFormButtonSelector", "emptyFormTemplateSelector", '
+        '"deleteFormButtonSelector", "moveFormDownButtonSelector", '
+        '"moveFormUpButtonSelector"'
     ]
 
 
@@ -66,8 +66,8 @@ def test_missing_formset_elements1(live_server, selenium):
     ]
     assert error_messages == [
         '[ConvenientFormset] Unable to find DOM elements with selectors: '
-        '`#formset #forms-container`, `#formset #empty-form-template`, '
-        '`#formset #add-form-button`'
+        '"#formset #forms-container", "#formset #empty-form-template", '
+        '"#formset #add-form-button"'
     ]
 
 
@@ -88,9 +88,9 @@ def test_missing_formset_elements2(live_server, selenium):
         msg.strip() for msg in error_log.text.split('\n') if msg.strip()
     ]
     assert error_messages == [
-        '[ConvenientFormset] Unable to find DOM elements in empty form with '
-        'selectors: `#delete-form-button`, `#move-form-down-button`, '
-        '`#move-form-up-button`, `input[name$="ORDER"]`'
+        '[ConvenientFormset] Unable to find DOM elements in empty form template '
+        'with selectors: "#delete-form-button", "#move-form-down-button", '
+        '"#move-form-up-button", "input[name$="ORDER"]"'
     ]
 
 
@@ -112,8 +112,8 @@ def test_missing_formset_elements3(live_server, selenium):
     ]
     assert error_messages == [
         '[ConvenientFormset] Unable to find DOM elements in one or more '
-        'visible forms with selectors: `#delete-form-button`, '
-        '`#move-form-down-button`, `#move-form-up-button`, `input[name$="ORDER"]`'
+        'visible forms with selectors: "#delete-form-button", '
+        '"#move-form-down-button", "#move-form-up-button", "input[name$="ORDER"]"'
     ]
 
 
@@ -134,7 +134,7 @@ def test_missing_management_form(live_server, selenium):
     ]
     assert error_messages == [
         '[ConvenientFormset] Management form for formset '
-        'with prefix `formset` missing or has been tampered with.'
+        'with prefix "formset" missing or has been tampered with.'
     ]
 
 

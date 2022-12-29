@@ -82,7 +82,7 @@ const ConvenientFormset = function(options) {
          * otherwise hidden.
          */
         const visibleForms = formsetElements.formsContainer.querySelectorAll(
-            formsetOptions.formSelector + ':not([hidden])'
+            `${formsetOptions.formSelector}:not([hidden])`
         );
         const maxNumForms = parseInt(
             managementFormElements.maxNumFormsInput.value, 10
@@ -96,7 +96,7 @@ const ConvenientFormset = function(options) {
          * `for` attribute of labels and the `id`/`name` attributes of inputs.
          */
         const prefix = formsetOptions.formsetPrefix;
-        const idRegex = new RegExp(prefix + '-(\\d+|__prefix__)');
+        const idRegex = new RegExp(`${prefix}-(\\d+|__prefix__)`);
 
         let forms = formsetElements.formsContainer.querySelectorAll(
             formsetOptions.formSelector
@@ -134,7 +134,7 @@ const ConvenientFormset = function(options) {
 
         for (let i = 0; i < forms.length; i++) {
             const form = forms[i];
-            const idReplacement = prefix + '-' + i;
+            const idReplacement = `${prefix}-${i}`;
 
             // Update the `for` attribute for all `label` elements
             const labelElements = form.querySelectorAll('label');
@@ -192,7 +192,7 @@ const ConvenientFormset = function(options) {
          * it updates the visibility of the `addFormButton`.
          */
         const visibleForms = formsetElements.formsContainer.querySelectorAll(
-            formsetOptions.formSelector + ':not([hidden])'
+            `${formsetOptions.formSelector}:not([hidden])`
         );
         const maxNumForms = parseInt(
             managementFormElements.maxNumFormsInput.value, 10
@@ -315,7 +315,7 @@ const ConvenientFormset = function(options) {
          * values.
          */
         let visibleForms = formsetElements.formsContainer.querySelectorAll(
-            formsetOptions.formSelector + ':not([hidden])'
+            `${formsetOptions.formSelector}:not([hidden])`
         );
         visibleForms = Array.prototype.slice.call(visibleForms);
         const formIndex = visibleForms.indexOf(form);
@@ -343,7 +343,7 @@ const ConvenientFormset = function(options) {
          * values.
          */
         let visibleForms = formsetElements.formsContainer.querySelectorAll(
-            formsetOptions.formSelector + ':not([hidden])'
+            `${formsetOptions.formSelector}:not([hidden])`
         );
         visibleForms = Array.prototype.slice.call(visibleForms);
         const formIndex = visibleForms.indexOf(form);
@@ -404,10 +404,10 @@ const ConvenientFormset = function(options) {
         // Throw error if there are missing required options
         if (missingOptions.length) {
             const formattedMissingOptions = missingOptions.map(
-                function(item) { return '`' + item + '`'; }
-            ).join(', ');
+                function(item) { return `"${item}"`; }
+            );
             const message = (
-                'Missing required options: ' + formattedMissingOptions
+                `Missing required options: ${formattedMissingOptions.join(', ')}`
             );
             throw new Error(message);
         }
@@ -454,11 +454,11 @@ const ConvenientFormset = function(options) {
         // Throw error if DOM elements are missing
         if (missingElements.length) {
             const formattedMissingElements = missingElements.map(
-                function(item) { return '`' + item + '`'; }
-            ).join(', ');
+                function(item) { return `"${item}"`; }
+            );
             const message = (
-                'Unable to find DOM elements in empty form with selectors: ' +
-                formattedMissingElements
+                'Unable to find DOM elements in empty form template with ' +
+                `selectors: ${formattedMissingElements.join(', ')}`
             );
             throw new Error(message);
         }
@@ -475,7 +475,7 @@ const ConvenientFormset = function(options) {
         let selector;
 
         const forms = formsetElements.formsContainer.querySelectorAll(
-            formsetOptions.formSelector + ':not([hidden])'
+            `${formsetOptions.formSelector}:not([hidden])`
         );
         for (let i = 0; i < forms.length; i++) {
             const form = forms[i];
@@ -512,11 +512,11 @@ const ConvenientFormset = function(options) {
         // Throw error if DOM elements are missing
         if (missingElements.length) {
             const formattedMissingElements = missingElements.map(
-                function(item) { return '`' + item + '`'; }
-            ).join(', ');
+                function(item) { return `"${item}"`; }
+            );
             const message = (
                 'Unable to find DOM elements in one or more visible forms ' +
-                'with selectors: ' + formattedMissingElements
+                `with selectors: ${formattedMissingElements.join(', ')}`
             );
             throw new Error(message);
         }
@@ -559,11 +559,11 @@ const ConvenientFormset = function(options) {
         // Throw error if DOM elements are missing
         if (missingElements.length) {
             const formattedMissingElements = missingElements.map(
-                function(item) { return '`' + item + '`'; }
-            ).join(', ');
+                function(item) { return `"${item}"`; }
+            );
             const message = (
                 'Unable to find DOM elements with selectors: ' +
-                formattedMissingElements
+                `${formattedMissingElements.join(', ')}`
             );
             throw new Error(message);
         }
@@ -580,25 +580,25 @@ const ConvenientFormset = function(options) {
         let selector;
 
         // Select DOM elements
-        selector = 'input[name="' + formsetOptions.formsetPrefix + '-TOTAL_FORMS"]';
+        selector = `input[name="${formsetOptions.formsetPrefix}-TOTAL_FORMS"]`;
         managementFormElements.totalFormsInput = document.querySelector(selector);
         if (managementFormElements.totalFormsInput === null) {
             configurationError = true;
         }
 
-        selector = 'input[name="' + formsetOptions.formsetPrefix + '-INITIAL_FORMS"]';
+        selector = `input[name="${formsetOptions.formsetPrefix}-INITIAL_FORMS"]`;
         managementFormElements.initialFormsInput = document.querySelector(selector);
         if (managementFormElements.initialFormsInput === null) {
             configurationError = true;
         }
 
-        selector = 'input[name="' + formsetOptions.formsetPrefix + '-MIN_NUM_FORMS"]';
+        selector = `input[name="${formsetOptions.formsetPrefix}-MIN_NUM_FORMS"]`;
         managementFormElements.minNumFormsInput = document.querySelector(selector);
         if (managementFormElements.minNumFormsInput === null) {
             configurationError = true;
         }
 
-        selector = 'input[name="' + formsetOptions.formsetPrefix + '-MAX_NUM_FORMS"]';
+        selector = `input[name="${formsetOptions.formsetPrefix}-MAX_NUM_FORMS"]`;
         managementFormElements.maxNumFormsInput = document.querySelector(selector);
         if (managementFormElements.maxNumFormsInput === null) {
             configurationError = true;
@@ -607,9 +607,9 @@ const ConvenientFormset = function(options) {
         // Throw error if DOM elements are missing
         if (configurationError) {
             const message = (
-                'Management form for formset with prefix `' +
-                formsetOptions.formsetPrefix +
-                '` missing or has been tampered with.'
+                'Management form for formset with prefix "' +
+                `${formsetOptions.formsetPrefix}` +
+                '" missing or has been tampered with.'
             );
             throw new Error(message);
         }
@@ -644,7 +644,7 @@ const ConvenientFormset = function(options) {
         }
 
         const forms = formsetElements.formsContainer.querySelectorAll(
-            formsetOptions.formSelector + ':not([hidden])'
+            `${formsetOptions.formSelector}:not([hidden])`
         );
         for (let i = 0; i < forms.length; i++) {
             const form = forms[i];
@@ -679,21 +679,21 @@ const ConvenientFormset = function(options) {
             initializeFormsetOptions(customOptions);
         }
         catch (error) {
-            throw Error('[ConvenientFormset] ' + error.message);
+            throw Error(`[ConvenientFormset] ${error.message}`);
         }
 
         try {
             selectFormsetElements();
         }
         catch (error) {
-            throw Error('[ConvenientFormset] ' + error.message);
+            throw Error(`[ConvenientFormset] ${error.message}`);
         }
 
         try {
             selectManagementFormElements();
         }
         catch (error) {
-            throw Error('[ConvenientFormset] ' + error.message);
+            throw Error(`[ConvenientFormset] ${error.message}`);
         }
 
         if (formsetOptions.canAddForms) {
@@ -701,7 +701,7 @@ const ConvenientFormset = function(options) {
                 checkEmptyFormTemplateElements();
             }
             catch (error) {
-                throw Error('[ConvenientFormset] ' + error.message);
+                throw Error(`[ConvenientFormset] ${error.message}`);
             }
         }
 
@@ -709,7 +709,7 @@ const ConvenientFormset = function(options) {
             checkVisibleFormsElements();
         }
         catch (error) {
-            throw Error('[ConvenientFormset] ' + error.message);
+            throw Error(`[ConvenientFormset] ${error.message}`);
         }
 
         if (formsetOptions.canDeleteForms) {
