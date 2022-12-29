@@ -2,7 +2,9 @@
 
 ## (Unreleased)
 - **BREAKING:** empty forms are now expected to appear inside the `<template>`
-  tag instead of any other hidden tag
+  tag instead of any other hidden tag. As such, the `emptyFormSelector`
+  parameter has been renamed to `emptyFormTemplateSelector`. See updated usage
+  documentation for an example.
 - **BREAKING:** Drop support for IE11 browser
 - Only latest desktop browsers are now tested for simplicity, minimal browser
   versions are no longer guaranteed
