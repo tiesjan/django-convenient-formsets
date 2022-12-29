@@ -2,7 +2,10 @@
 
 ## (Unreleased)
 - **BREAKING:** empty forms are now expected to appear inside the `<template>`
-  tag instead of any other hidden tag.
+  tag instead of any other hidden tag
+- **BREAKING:** Drop support for IE11 browser
+- Only latest desktop browsers are now tested for simplicity, minimal browser
+  versions are no longer guaranteed
 - Add support for JavaScript events when adding or deleting forms in formsets
   (thanks to @CleitonDeLima)
 
