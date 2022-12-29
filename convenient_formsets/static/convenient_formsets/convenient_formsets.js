@@ -101,6 +101,7 @@ const ConvenientFormset = function(options) {
         let forms = formsetElements.formsContainer.querySelectorAll(
             formsetOptions.formSelector
         );
+        forms = Array.from(forms);
 
         // If forms can be ordered, order the retrieved forms by the `name`
         // attribute of ORDER input elements. This ensures indexes are updated
@@ -128,7 +129,7 @@ const ConvenientFormset = function(options) {
                 }
             };
 
-            forms = Array.prototype.slice.call(forms).sort(compareForms);
+            forms = forms.sort(compareForms);
         }
 
 
@@ -317,7 +318,7 @@ const ConvenientFormset = function(options) {
         let visibleForms = formsetElements.formsContainer.querySelectorAll(
             `${formsetOptions.formSelector}:not([hidden])`
         );
-        visibleForms = Array.prototype.slice.call(visibleForms);
+        visibleForms = Array.from(visibleForms);
         const formIndex = visibleForms.indexOf(form);
 
         if (formIndex < visibleForms.length - 1) {
@@ -345,7 +346,7 @@ const ConvenientFormset = function(options) {
         let visibleForms = formsetElements.formsContainer.querySelectorAll(
             `${formsetOptions.formSelector}:not([hidden])`
         );
-        visibleForms = Array.prototype.slice.call(visibleForms);
+        visibleForms = Array.from(visibleForms);
         const formIndex = visibleForms.indexOf(form);
 
         if (formIndex > 0) {
@@ -373,7 +374,7 @@ const ConvenientFormset = function(options) {
          */
         const missingOptions = [];
 
-        for (let optionKey in availableOptions) {  // eslint-disable-line prefer-const -- using `let` for IE11
+        for (const optionKey in availableOptions) {
             // Attempt to retrieve option values from `customOptions`, falling
             // back to the default value
             let optionValue;
