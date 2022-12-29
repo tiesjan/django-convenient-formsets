@@ -32,7 +32,7 @@ const ConvenientFormset = function(options) {
             'defaultValue': undefined,
             'requiredIf': 'canAddForms',
         },
-        'emptyFormSelector': {
+        'emptyFormTemplateSelector': {
             'defaultValue': undefined,
             'requiredIf': 'canAddForms',
         },
@@ -413,11 +413,11 @@ const ConvenientFormset = function(options) {
         }
     }
 
-    function checkEmptyFormElements() {
+    function checkEmptyFormTemplateElements() {
         /*
-         * Asserts that the empty form has an `deleteFormButton` if forms can
-         * be deleted, and a `moveFormDownButton` and a `moveFormUpButton` if
-         * forms can be ordered.
+         * Asserts that the empty form template has an `deleteFormButton` if
+         * forms can be deleted, a `moveFormDownButton` and a
+         * `moveFormUpButton` if forms can be ordered.
          */
         const missingElements = [];
         let element;
@@ -540,10 +540,13 @@ const ConvenientFormset = function(options) {
         }
 
         if (formsetOptions.canAddForms) {
-            selector = formsetOptions.emptyFormSelector;
-            formsetElements.emptyForm = document.querySelector(selector);
-            if (formsetElements.emptyForm === null) {
+            selector = formsetOptions.emptyFormTemplateSelector;
+            const emptyFormTemplate = document.querySelector(selector);
+            if (emptyFormTemplate === null || emptyFormTemplate.content === undefined) {
                 missingElements.push(selector);
+            }
+            else {
+                formsetElements.emptyForm = emptyFormTemplate.content;
             }
 
             selector = formsetOptions.addFormButtonSelector;
@@ -695,7 +698,7 @@ const ConvenientFormset = function(options) {
 
         if (formsetOptions.canAddForms) {
             try {
-                checkEmptyFormElements();
+                checkEmptyFormTemplateElements();
             }
             catch (error) {
                 throw Error('[ConvenientFormset] ' + error.message);

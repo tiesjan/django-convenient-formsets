@@ -11,7 +11,7 @@
 
             'canAddForms': true,
             'addFormButtonSelector': '#formset #add-form-button',
-            'emptyFormSelector': '#formset #empty-form .form',
+            'emptyFormTemplateSelector': '#formset #empty-form-template',
             'hideAddFormButtonOnMaxForms': true,
 
             'canDeleteForms': false,
@@ -50,12 +50,12 @@
         </div>
     </div>
     <input type="button" id="add-form-button" value="Add form">
-    <div id="empty-form" hidden>
+    <template id="empty-form-template">
         <div class="form">
             <label for="id_formset-__prefix__-user">Username:</label>
             <input type="text" id="id_formset-__prefix__-user" value="">
         </div>
-    </div>
+    </template>
     <div id="management-form">
         <input type="hidden" name="formset-TOTAL_FORMS" value="4">
         <input type="hidden" name="formset-INITIAL_FORMS" value="4">

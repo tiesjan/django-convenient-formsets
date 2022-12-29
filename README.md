@@ -79,7 +79,7 @@ Other platform versions may work, but are not actively tested.
 
                     'canAddForms': true,
                     'addFormButtonSelector': '#email-formset #add-form-button',
-                    'emptyFormSelector': '#email-formset #empty-form .email-form',
+                    'emptyFormTemplateSelector': '#email-formset #empty-form-template',
 
                     'canDeleteForms': true,
                     'deleteFormButtonSelector': '#delete-form-button',
@@ -112,7 +112,7 @@ Other platform versions may work, but are not actively tested.
                 {% endfor %}
             </div>
             <div><input type="button" id="add-form-button" value="Add another"></div>
-            <div id="empty-form" hidden>
+            <template id="empty-form-template">
                 <div class="email-form">
                     {{ email_formset.empty_form.email }}
                     {% if email_formset.can_delete %}
@@ -124,7 +124,7 @@ Other platform versions may work, but are not actively tested.
                         <input type="button" id="move-form-down-button" value="Move down">
                     {% endif %}
                 </div>
-            </div>
+            </template>
             {{ email_formset.management_form }}
         </div>
     </body>
@@ -175,8 +175,8 @@ fails, check the browser console for some helpful output.
   <dd>Enables adding of new forms (default: true).</dd>
   <dt>addFormButtonSelector</dt>
   <dd>CSS selector for the DOM element that may be clicked to add an empty form (required if "canAddForms" is set).</dd>
-  <dt>emptyFormSelector</dt>
-  <dd>CSS selector for the empty form (required if "canAddForms" is set).</dd>
+  <dt>emptyFormTemplateSelector</dt>
+  <dd>CSS selector for the empty form &lt;template&gt; element (required if "canAddForms" is set).</dd>
   <dt>hideAddFormButtonOnMaxForms</dt>
   <dd>Hides the add button when reaching the maximum number of forms, by applying the "hidden" HTML attribute (default: true).</dd>
 </dl>

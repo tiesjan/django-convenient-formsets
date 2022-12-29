@@ -1,6 +1,8 @@
 # Changes
 
 ## (Unreleased)
+- **BREAKING:** empty forms are now expected to appear inside the `<template>`
+  tag instead of any other hidden tag.
 - Add support for JavaScript events when adding or deleting forms in formsets
   (thanks to @CleitonDeLima)
 

@@ -21,7 +21,7 @@ def test_missing_options1(live_server, selenium):
     assert error_messages == [
         '[ConvenientFormset] Missing required options: '
         '`formsetPrefix`, `formsContainerSelector`, `formSelector`, '
-        '`addFormButtonSelector`, `emptyFormSelector`'
+        '`addFormButtonSelector`, `emptyFormTemplateSelector`'
     ]
 
 
@@ -43,7 +43,7 @@ def test_missing_options2(live_server, selenium):
     assert error_messages == [
         '[ConvenientFormset] Missing required options: '
         '`formsetPrefix`, `formsContainerSelector`, `formSelector`, '
-        '`addFormButtonSelector`, `emptyFormSelector`, '
+        '`addFormButtonSelector`, `emptyFormTemplateSelector`, '
         '`deleteFormButtonSelector`, `moveFormDownButtonSelector`, '
         '`moveFormUpButtonSelector`'
     ]
@@ -66,7 +66,7 @@ def test_missing_formset_elements1(live_server, selenium):
     ]
     assert error_messages == [
         '[ConvenientFormset] Unable to find DOM elements with selectors: '
-        '`#formset #forms-container`, `#formset #empty-form .form`, '
+        '`#formset #forms-container`, `#formset #empty-form-template`, '
         '`#formset #add-form-button`'
     ]
 

@@ -11,7 +11,7 @@
 
             'canAddForms': true,
             'addFormButtonSelector': '#formset #add-form-button',
-            'emptyFormSelector': '#formset #empty-form .form',
+            'emptyFormTemplateSelector': '#formset #empty-form-template',
             'hideAddFormButtonOnMaxForms': true,
 
             'canDeleteForms': false,
@@ -27,10 +27,10 @@
 <div id="formset">
     <div id="forms-container"></div>
     <input type="button" id="add-form-button" value="Add form">
-    <div id="empty-form" hidden>
+    <template id="empty-form-template">
         <div class="form">
             <input type="text" name="formset-__prefix__-user" value="">
         </div>
-    </div>
+    </template>
 </div>
 {% endblock %}

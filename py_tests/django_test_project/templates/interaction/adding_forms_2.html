@@ -11,7 +11,7 @@
 
             'canAddForms': true,
             'addFormButtonSelector': '#formset #add-form-button',
-            'emptyFormSelector': '#formset #empty-form .form',
+            'emptyFormTemplateSelector': '#formset #empty-form-template',
             'hideAddFormButtonOnMaxForms': true,
 
             'canDeleteForms': true,
@@ -72,7 +72,7 @@
         </div>
     </div>
     <input type="button" id="add-form-button" value="Add form">
-    <div id="empty-form" hidden>
+    <template id="empty-form-template">
         <div class="form">
             <input type="text" name="formset-__prefix__-user" value="">
             <input type="button" id="delete-form-button" value="Delete form">
@@ -80,7 +80,7 @@
             <input type="button" id="move-form-up-button" value="Move up">
             <input type="button" id="move-form-down-button" value="Move down">
         </div>
-    </div>
+    </template>
     <div id="management-form">
         <input type="hidden" name="formset-TOTAL_FORMS" value="5">
         <input type="hidden" name="formset-INITIAL_FORMS" value="5">
