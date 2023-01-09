@@ -12,9 +12,9 @@ class ConvenientFormsetsBase():
         Returns a `Media` object that includes the form's media together with
         the JavaScript required for in-browser interaction.
         """
-        js_ext = "min.js" if not settings.DEBUG else "js"
+        js_extension = "min.js" if not settings.DEBUG else "js"
         convenient_formsets_media = forms.Media(
-            js=('convenient_formsets/convenient_formsets.{}'.format(js_ext),)
+            js=(f"convenient_formsets/convenient_formsets.{js_extension}",)
         )
         forms_media = super().media
         return convenient_formsets_media + forms_media
