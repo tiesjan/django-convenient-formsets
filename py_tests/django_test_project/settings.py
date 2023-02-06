@@ -12,7 +12,7 @@ INSTALLED_APPS = (
 
 ROOT_URLCONF = 'py_tests.django_test_project.urls'
 
-SECRET_KEY = 'g4p-d0v@+6c5+*%6xac=#3p1cd$-cufg#t!ytjg-fz-a06*7)5'
+SECRET_KEY = 'MY_NOT_SO_SECRET_KEY_FOR_TESTING_PURPOSES'
 
 STATIC_URL = '/static/'
 
