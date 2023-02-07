@@ -10,6 +10,7 @@
   versions are no longer guaranteed
 - Add support for JavaScript events when adding or deleting forms in formsets
   (thanks to @CleitonDeLima)
+- Add support for JavaScript events when reordering forms in formsets
 
 ## Version 1.2.1
 - Fixes in Changelog and include it when packaging

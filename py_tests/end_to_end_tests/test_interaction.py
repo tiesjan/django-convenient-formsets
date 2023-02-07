@@ -454,7 +454,7 @@ def test_combined_form_actions(live_server, selenium):
 def test_form_added_event(live_server, selenium):
     """
     Test the behavior when adding a form to a formset a JavaScript event
-    "convenientformset:added" is fired.
+    "convenient_formset:added" is fired.
     """
     # Load webpage for test
     params = {'template_name': 'interaction/form_added_event.html'}
@@ -473,6 +473,7 @@ def test_form_added_event(live_server, selenium):
     ]
     assert error_messages == []
 
+    # Assert events
     event_log = selenium.find_element(By.CSS_SELECTOR, '#event-log')
     event_messages = [
         msg.strip() for msg in event_log.text.split('\n') if msg.strip()
@@ -483,14 +484,14 @@ def test_form_added_event(live_server, selenium):
 def test_form_deleted_event(live_server, selenium):
     """
     Test the behavior when deleting two forms from a formset, a JavaScript
-    event "convenientformset:removed" is fired both times.
+    event "convenient_formset:removed" is fired both times.
     """
     # Load webpage for test
     params = {'template_name': 'interaction/form_deleted_event.html'}
     test_url = f'{live_server.url}?{urlencode(params)}'
     selenium.get(test_url)
 
-    # Initiate click on delete form button of 2nd & 3rd form
+    # Initiate click on delete form button of 1st & 2nd form
     forms = selenium.find_elements(
             By.CSS_SELECTOR, '#formset #forms-container .form')
     forms[0].find_element(By.CSS_SELECTOR, '#delete-form-button').click()
@@ -503,8 +504,49 @@ def test_form_deleted_event(live_server, selenium):
     ]
     assert error_messages == []
 
+    # Assert events
     event_log = selenium.find_element(By.CSS_SELECTOR, '#event-log')
     event_messages = [
         msg.strip() for msg in event_log.text.split('\n') if msg.strip()
     ]
     assert event_messages == ['removed:formset', 'removed:formset']
+
+
+def test_form_moved_events(live_server, selenium):
+    """
+    Test the behavior when ordering forms in a formset, JavaScript events
+    "convenient_formset:movedUp" and "convenient_formset:movedDown" are fired.
+    """
+    # Load webpage for test
+    params = {'template_name': 'interaction/form_moved_events.html'}
+    test_url = f'{live_server.url}?{urlencode(params)}'
+    selenium.get(test_url)
+
+    # Initiate clicks on move form down button of 1st form and on move form up
+    # button of 3rd form
+    forms = selenium.find_elements(
+            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms[0].find_element(By.CSS_SELECTOR, '#move-form-down-button').click()
+    forms[2].find_element(By.CSS_SELECTOR, '#move-form-up-button').click()
+    forms[2].find_element(By.CSS_SELECTOR, '#move-form-up-button').click()
+
+    # Initiate extra clicks to assert that events are not fired again, since at
+    # this point the 1st form is at the bottom and the 3rd form at the top
+    forms[0].find_element(By.CSS_SELECTOR, '#move-form-down-button').click()
+    forms[2].find_element(By.CSS_SELECTOR, '#move-form-up-button').click()
+
+    # Assert errors
+    error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
+    error_messages = [
+        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
+    ]
+    assert error_messages == []
+
+    # Assert events
+    event_log = selenium.find_element(By.CSS_SELECTOR, '#event-log')
+    event_messages = [
+        msg.strip() for msg in event_log.text.split('\n') if msg.strip()
+    ]
+    assert event_messages == [
+        'movedDown:formset', 'movedUp:formset', 'movedUp:formset'
+    ]

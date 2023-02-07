@@ -334,6 +334,16 @@ const ConvenientFormset = function(options) {
             const nextFormOrderValue = nextFormOrderElement.value;
             formOrderElement.value = nextFormOrderValue;
             nextFormOrderElement.value = formOrderValue;
+
+            // Dispatch event
+            form.dispatchEvent(
+                new CustomEvent('convenient_formset:movedDown', {
+                    bubbles: true,
+                    detail: {
+                        formsetPrefix: formsetOptions.formsetPrefix,
+                    },
+                })
+            );
         }
     }
 
@@ -362,6 +372,16 @@ const ConvenientFormset = function(options) {
             const previousFormOrderValue = previousFormOrderElement.value;
             formOrderElement.value = previousFormOrderValue;
             previousFormOrderElement.value = formOrderValue;
+
+            // Dispatch event
+            form.dispatchEvent(
+                new CustomEvent('convenient_formset:movedUp', {
+                    bubbles: true,
+                    detail: {
+                        formsetPrefix: formsetOptions.formsetPrefix,
+                    },
+                })
+            );
         }
     }
 

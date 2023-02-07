@@ -9,8 +9,8 @@
 This Django app aims to make dynamic formsets convenient for users and
 developers alike. It extends Django's built-in formset classes and includes
 support for adding, deleting and ordering of forms on the client side.
-JavaScript events are dispatched when adding or deleting forms for executing
-custom logic.
+JavaScript events are dispatched when adding, deleting and ordering forms, for
+executing custom logic.
 
 
 #### Supported platforms
@@ -226,10 +226,21 @@ fails, check the browser console for some helpful output.
 ---
 
 #### Events
-When adding or deleting forms, custom JavaScript events are dispatched to allow
-for executing custom JavaScript code. The `convenient_formset:added` event is
-dispatched when forms are added, the `convenient_formset:removed` event when
-forms are deleted. Both events will contain the `formsetPrefix` in the event's
+When adding, deleting or reordering forms, custom JavaScript events are
+dispatched to allow for executing custom JavaScript code:
+
+<dl>
+  <dt>convenient_formset:added</dt>
+  <dd>Dispatched when a form is added to the formset.</dd>
+  <dt>convenient_formset:removed</dt>
+  <dd>Dispatched when a form is removed to the formset.</dd>
+  <dt>convenient_formset:movedDown</dt>
+  <dd>Dispatched when a form is moved downwards while reordering forms inside the formset.</dd>
+  <dt>convenient_formset:movedUp</dt>
+  <dd>Dispatched when a form is moved upwards while reordering forms inside the formset.</dd>
+</dl>
+
+All events will contain the `formsetPrefix` parameter value in the event's
 `detail` property.
 
 These events can be handled in the following way:
