@@ -150,6 +150,26 @@ See the example in the Quick start guide above on how to render the formset in
 your HTML template. Feel free to add some intermediate DOM elements if it suits
 your template better, as long as you stick to the basic structure shown above.
 
+It is important that both the visible forms and the empty form follow the same
+structure. A form also needs to be contained inside a single parent element,
+denoted by the _**formSelector**_ parameter:
+
+```htmldjango
+<!-- Visible forms inside forms container -->
+<div id="email-forms-container">
+    <div class="email-form">
+        <!-- Form -->
+    </div>
+</div>
+
+<!-- Empty form inside template element -->
+<template id="empty-form-template">
+    <div class="email-form">
+        <!-- Form -->
+    </div>
+</template>
+```
+
 #### Configuration
 Creating an instance of the JavaScript constructor function `ConvenientFormset`
 allows a user to add and delete forms within the rendered formset. When a user

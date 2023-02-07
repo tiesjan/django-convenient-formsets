@@ -393,10 +393,16 @@ def test_combined_form_actions(live_server, selenium):
     forms[0].find_element(By.CSS_SELECTOR, '#move-form-down-button').click()
     forms[4].find_element(By.CSS_SELECTOR, '#move-form-up-button').click()
 
-    # Initiate click on add form button
+    # Initiate two clicks on add form button
     add_form_button = selenium.find_element(
             By.CSS_SELECTOR, '#formset #add-form-button')
     add_form_button.click()
+    add_form_button.click()
+
+    # Delete the last form, to assert that deleting a newly added forms works
+    forms = selenium.find_elements(
+            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms[-1].find_element(By.CSS_SELECTOR, '#delete-form-button').click()
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')

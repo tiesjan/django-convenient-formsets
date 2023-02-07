@@ -528,9 +528,12 @@ const ConvenientFormset = function(options) {
          * Initializes `formsetElements` by selecting DOM elements from the
          * formset using the specified selectors.
          *
-         * Missing DOM elements will throw an error.
+         * Missing DOM elements and malformed empty form template will throw an
+         * error.
          */
+        let emptyFormChildElementCount = -1;
         const missingElements = [];
+
         let selector;
 
         // Select DOM elements
@@ -543,11 +546,16 @@ const ConvenientFormset = function(options) {
         if (formsetOptions.canAddForms) {
             selector = formsetOptions.emptyFormTemplateSelector;
             const emptyFormTemplate = document.querySelector(selector);
-            if (emptyFormTemplate === null || emptyFormTemplate.content === undefined) {
+            if (emptyFormTemplate === null) {
                 missingElements.push(selector);
             }
             else {
-                formsetElements.emptyForm = emptyFormTemplate.content;
+                emptyFormChildElementCount = emptyFormTemplate.content.childElementCount;
+                if (emptyFormChildElementCount === 1) {
+                    formsetElements.emptyForm = (
+                        emptyFormTemplate.content.firstElementChild
+                    );
+                }
             }
 
             selector = formsetOptions.addFormButtonSelector;
@@ -565,6 +573,16 @@ const ConvenientFormset = function(options) {
             const message = (
                 'Unable to find DOM elements with selectors: ' +
                 `${formattedMissingElements.join(', ')}`
+            );
+            throw new Error(message);
+        }
+
+        // Throw error if the empty form template is malformed
+        else if (formsetOptions.canAddForms && emptyFormChildElementCount !== 1) {
+            const message = (
+                'Expected 1 element inside ' +
+                `"${formsetOptions.emptyFormTemplateSelector}", ` +
+                `found: ${emptyFormChildElementCount}`
             );
             throw new Error(message);
         }

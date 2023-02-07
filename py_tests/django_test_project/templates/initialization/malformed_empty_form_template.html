@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+
+{% block page_scripts %}
+<script>
+    window.addEventListener('load', function(event) {
+        new ConvenientFormset({
+            'formsetPrefix': 'formset',
+            'formsContainerSelector': '#formset #forms-container',
+            'formSelector': '.form',
+
+            'canAddForms': true,
+            'addFormButtonSelector': '#formset #add-form-button',
+            'emptyFormTemplateSelector': '#formset #empty-form-template',
+            'hideAddFormButtonOnMaxForms': true,
+
+            'canDeleteForms': false,
+
+            'canOrderForms': false,
+        });
+    });
+</script>
+{% endblock%}
+
+
+{% block page_contents %}
+<div id="formset">
+    <div id="forms-container"></div>
+    <input type="button" id="add-form-button" value="Add form">
+    <template id="empty-form-template">
+        <div class="form">
+            <input type="text" name="formset-__prefix__-user" value="">
+        </div>
+        <div class="another-form">
+            <input type="text" name="formset-__prefix__-user" value="">
+        </div>
+    </template>
+    <div id="management-form">
+        <input type="hidden" name="formset-TOTAL_FORMS" value="0">
+        <input type="hidden" name="formset-INITIAL_FORMS" value="0">
+        <input type="hidden" name="formset-MIN_NUM_FORMS" value="0">
+        <input type="hidden" name="formset-MAX_NUM_FORMS" value="5">
+    </div>
+</div>
+{% endblock %}

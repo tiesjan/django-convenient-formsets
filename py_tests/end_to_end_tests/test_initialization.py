@@ -117,6 +117,28 @@ def test_missing_formset_elements3(live_server, selenium):
     ]
 
 
+def test_malformed_empty_form_template(live_server, selenium):
+    """
+    Asserts the ConvenientFormset instantiation raises an error message when
+    the <template> element with `emptyFormTemplateSelector` contains more than
+    1 child element.
+    """
+    # Load webpage for test
+    params = {'template_name': 'initialization/malformed_empty_form_template.html'}
+    test_url = f'{live_server.url}?{urlencode(params)}'
+    selenium.get(test_url)
+
+    # Assert errors
+    error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
+    error_messages = [
+        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
+    ]
+    assert error_messages == [
+        '[ConvenientFormset] Expected 1 element inside '
+        '"#formset #empty-form-template", found: 2'
+    ]
+
+
 def test_missing_management_form(live_server, selenium):
     """
     Asserts the ConvenientFormset instantiation raises an error message when
