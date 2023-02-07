@@ -4,12 +4,12 @@
     "author": "Ties Jan Hefting",
     "license": "BSD-3-Clause",
     "engines": {
-        "node": "~12.21.0",
-        "npm": "~7.5.0"
+        "node": "~18.13.0",
+        "npm": "~9.2.0"
     },
     "devDependencies": {
-        "eslint": "^7.22.0",
-        "terser": "^5.7.0"
+        "eslint": "^8.33.0",
+        "terser": "^5.16.3"
     },
     "scripts": {
         "lint": "eslint convenient_formsets/static/convenient_formsets/*.js",
