@@ -6,7 +6,7 @@ from .formsets import (
 
 
 __all__ = (
-    'ConvenientBaseFormSet',
-    'ConvenientBaseInlineFormSet',
-    'ConvenientBaseModelFormSet',
+    "ConvenientBaseFormSet",
+    "ConvenientBaseInlineFormSet",
+    "ConvenientBaseModelFormSet",
 )

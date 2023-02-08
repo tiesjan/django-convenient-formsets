@@ -25,9 +25,9 @@ def test_media(form_class, settings):
     formset = EmailFormSet()
 
     settings.DEBUG = True
-    expected_url = static('convenient_formsets/convenient_formsets.js')
-    assert expected_url in str(formset.media['js'])
+    expected_url = static("convenient_formsets/convenient_formsets.js")
+    assert expected_url in str(formset.media["js"])
 
     settings.DEBUG = False
-    expected_url = static('convenient_formsets/convenient_formsets.min.js')
-    assert expected_url in str(formset.media['js'])
+    expected_url = static("convenient_formsets/convenient_formsets.min.js")
+    assert expected_url in str(formset.media["js"])

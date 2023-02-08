@@ -4,10 +4,10 @@ from django.views.generic.base import TemplateView
 
 
 class TestView(TemplateView):
-    template_name = 'base.html'
+    template_name = "base.html"
 
     def get_template_names(self):
-        template_name = self.request.GET.get('template_name')
+        template_name = self.request.GET.get("template_name")
 
         if template_name:
             try:
@@ -15,4 +15,4 @@ class TestView(TemplateView):
             except TemplateDoesNotExist:
                 pass
 
-        return '404.html'
+        return "404.html"
