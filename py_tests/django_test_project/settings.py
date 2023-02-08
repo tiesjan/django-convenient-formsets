@@ -25,6 +25,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.template.context_processors.static',
             ]
-        }
+        },
     },
 ]

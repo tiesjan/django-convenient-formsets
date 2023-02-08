@@ -16,22 +16,20 @@ def test_adding_forms1(live_server, selenium):
 
     # Initiate 6 clicks on add form button (one too many)
     add_form_button = selenium.find_element(
-            By.CSS_SELECTOR, '#formset #add-form-button')
+        By.CSS_SELECTOR, '#formset #add-form-button'
+    )
     for _ in range(6):
         add_form_button.click()
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
-    error_messages = [
-        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
-    ]
+    error_messages = [msg.strip() for msg in error_log.text.split('\n') if msg.strip()]
     assert error_messages == []
 
     # Assert attributes of form elements
     expected_text_values = ['', '', '', '', '']
     expected_order_values = ['1', '2', '3', '4', '5']
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     assert len(forms) == 5
     for i, form in enumerate(forms):
         # Label
@@ -54,16 +52,20 @@ def test_adding_forms1(live_server, selenium):
 
     # Assert management form values
     total_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-TOTAL_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-TOTAL_FORMS"]'
+    )
     assert total_forms_input.get_attribute('value') == '5'
     initial_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-INITIAL_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-INITIAL_FORMS"]'
+    )
     assert initial_forms_input.get_attribute('value') == '0'
     min_num_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-MIN_NUM_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-MIN_NUM_FORMS"]'
+    )
     assert min_num_forms_input.get_attribute('value') == '0'
     max_num_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-MAX_NUM_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-MAX_NUM_FORMS"]'
+    )
     assert max_num_forms_input.get_attribute('value') == '5'
 
     # Assert that add form button does not have the `hidden` attribute set
@@ -82,22 +84,20 @@ def test_adding_forms2(live_server, selenium):
 
     # Initiate click on add form button
     add_form_button = selenium.find_element(
-            By.CSS_SELECTOR, '#formset #add-form-button')
+        By.CSS_SELECTOR, '#formset #add-form-button'
+    )
     add_form_button.click()
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
-    error_messages = [
-        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
-    ]
+    error_messages = [msg.strip() for msg in error_log.text.split('\n') if msg.strip()]
     assert error_messages == []
 
     # Assert attributes of form elements
     expected_text_values = ['user0', 'user1', 'user2', 'user3', 'user4', '']
     expected_delete_values = ['on', '', 'on', '', 'on']
     expected_order_values = ['1', '2', '3', '4', '5', '5']
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     assert len(forms) == 6
     for i, form in enumerate(forms):
         # Label
@@ -123,16 +123,20 @@ def test_adding_forms2(live_server, selenium):
 
     # Assert management form values
     total_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-TOTAL_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-TOTAL_FORMS"]'
+    )
     assert total_forms_input.get_attribute('value') == '6'
     initial_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-INITIAL_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-INITIAL_FORMS"]'
+    )
     assert initial_forms_input.get_attribute('value') == '5'
     min_num_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-MIN_NUM_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-MIN_NUM_FORMS"]'
+    )
     assert min_num_forms_input.get_attribute('value') == '0'
     max_num_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-MAX_NUM_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-MAX_NUM_FORMS"]'
+    )
     assert max_num_forms_input.get_attribute('value') == '5'
 
     # Assert that add form button does not have the `hidden` attribute set
@@ -151,20 +155,18 @@ def test_adding_forms3(live_server, selenium):
 
     # Initiate click on add form button
     add_form_button = selenium.find_element(
-            By.CSS_SELECTOR, '#formset #add-form-button')
+        By.CSS_SELECTOR, '#formset #add-form-button'
+    )
     add_form_button.click()
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
-    error_messages = [
-        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
-    ]
+    error_messages = [msg.strip() for msg in error_log.text.split('\n') if msg.strip()]
     assert error_messages == []
 
     # Assert attributes of form elements
     expected_values = ['user0', 'user1', 'user2', 'user3', '']
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     assert len(forms) == 5
     for i, form in enumerate(forms):
         # Label
@@ -181,16 +183,20 @@ def test_adding_forms3(live_server, selenium):
 
     # Assert management form values
     total_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-TOTAL_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-TOTAL_FORMS"]'
+    )
     assert total_forms_input.get_attribute('value') == '5'
     initial_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-INITIAL_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-INITIAL_FORMS"]'
+    )
     assert initial_forms_input.get_attribute('value') == '4'
     min_num_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-MIN_NUM_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-MIN_NUM_FORMS"]'
+    )
     assert min_num_forms_input.get_attribute('value') == '0'
     max_num_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-MAX_NUM_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-MAX_NUM_FORMS"]'
+    )
     assert max_num_forms_input.get_attribute('value') == '5'
 
     # Assert that add form button does have the `hidden` attribute set
@@ -208,23 +214,19 @@ def test_deleting_forms(live_server, selenium):
     selenium.get(test_url)
 
     # Initiate click on delete form button of 2nd & 3rd form
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     forms[1].find_element(By.CSS_SELECTOR, '#delete-form-button').click()
     forms[2].find_element(By.CSS_SELECTOR, '#delete-form-button').click()
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
-    error_messages = [
-        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
-    ]
+    error_messages = [msg.strip() for msg in error_log.text.split('\n') if msg.strip()]
     assert error_messages == []
 
     # Assert attributes of form elements
     expected_text_values = ['user0', 'user1', 'user3', 'user4']
     expected_delete_values = ['', 'on']
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     assert len(forms) == 4
     for i, form in enumerate(forms):
         # Label
@@ -248,21 +250,26 @@ def test_deleting_forms(live_server, selenium):
 
     # Assert management form values
     total_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-TOTAL_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-TOTAL_FORMS"]'
+    )
     assert total_forms_input.get_attribute('value') == '4'
     initial_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-INITIAL_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-INITIAL_FORMS"]'
+    )
     assert initial_forms_input.get_attribute('value') == '2'
     min_num_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-MIN_NUM_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-MIN_NUM_FORMS"]'
+    )
     assert min_num_forms_input.get_attribute('value') == '0'
     max_num_forms_input = selenium.find_element(
-            By.CSS_SELECTOR, 'input[name="formset-MAX_NUM_FORMS"]')
+        By.CSS_SELECTOR, 'input[name="formset-MAX_NUM_FORMS"]'
+    )
     assert max_num_forms_input.get_attribute('value') == '5'
 
     # Assert that add form button does not have the `hidden` attribute set
     add_form_button = selenium.find_element(
-            By.CSS_SELECTOR, '#formset #add-form-button')
+        By.CSS_SELECTOR, '#formset #add-form-button'
+    )
     assert add_form_button.get_attribute('hidden') is None
 
 
@@ -276,25 +283,21 @@ def test_ordering_forms1(live_server, selenium):
     selenium.get(test_url)
 
     # Initiate click on move form up/down buttons of 1st, 3nd & 5th form
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     forms[0].find_element(By.CSS_SELECTOR, '#move-form-down-button').click()
     forms[2].find_element(By.CSS_SELECTOR, '#move-form-down-button').click()
     forms[4].find_element(By.CSS_SELECTOR, '#move-form-up-button').click()
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
-    error_messages = [
-        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
-    ]
+    error_messages = [msg.strip() for msg in error_log.text.split('\n') if msg.strip()]
     assert error_messages == []
 
     # Assert attributes of form elements
     expected_form_indexes = ['1', '0', '3', '4', '2']
     expected_text_values = ['user1', 'user0', 'user3', 'user4', 'user2']
     expected_order_values = ['1', '2', '3', '4', '5']
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     assert len(forms) == 5
     for i, form in enumerate(forms):
         # Label
@@ -303,8 +306,7 @@ def test_ordering_forms1(live_server, selenium):
         # Text input
         element = form.find_element(By.CSS_SELECTOR, 'input[type="text"]')
         assert (
-            element.get_attribute('name') ==
-            f'formset-{expected_form_indexes[i]}-user'
+            element.get_attribute('name') == f'formset-{expected_form_indexes[i]}-user'
         )
         assert element.get_attribute('value') == f'{expected_text_values[i]}'
 
@@ -314,8 +316,7 @@ def test_ordering_forms1(live_server, selenium):
         # Order index
         element = form.find_element(By.CSS_SELECTOR, 'input[name$="ORDER"]')
         assert (
-            element.get_attribute('name') ==
-            f'formset-{expected_form_indexes[i]}-ORDER'
+            element.get_attribute('name') == f'formset-{expected_form_indexes[i]}-ORDER'
         )
         assert element.get_attribute('value') == f'{expected_order_values[i]}'
 
@@ -332,24 +333,20 @@ def test_ordering_forms2(live_server, selenium):
 
     # Initiate click on move form up button for first and on move form down
     # button for last form
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     forms[0].find_element(By.CSS_SELECTOR, '#move-form-up-button').click()
     forms[-1].find_element(By.CSS_SELECTOR, '#move-form-down-button').click()
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
-    error_messages = [
-        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
-    ]
+    error_messages = [msg.strip() for msg in error_log.text.split('\n') if msg.strip()]
     assert error_messages == []
 
     # Assert attributes of form elements
     expected_form_indexes = ['0', '1', '2', '3', '4']
     expected_text_values = ['user0', 'user1', 'user2', 'user3', 'user4']
     expected_order_values = ['1', '2', '3', '4', '5']
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     assert len(forms) == 5
     for i, form in enumerate(forms):
         # Label
@@ -358,8 +355,7 @@ def test_ordering_forms2(live_server, selenium):
         # Text input
         element = form.find_element(By.CSS_SELECTOR, 'input[type="text"]')
         assert (
-            element.get_attribute('name') ==
-            f'formset-{expected_form_indexes[i]}-user'
+            element.get_attribute('name') == f'formset-{expected_form_indexes[i]}-user'
         )
         assert element.get_attribute('value') == f'{expected_text_values[i]}'
 
@@ -369,8 +365,7 @@ def test_ordering_forms2(live_server, selenium):
         # Order index
         element = form.find_element(By.CSS_SELECTOR, 'input[name$="ORDER"]')
         assert (
-            element.get_attribute('name') ==
-            f'formset-{expected_form_indexes[i]}-ORDER'
+            element.get_attribute('name') == f'formset-{expected_form_indexes[i]}-ORDER'
         )
         assert element.get_attribute('value') == f'{expected_order_values[i]}'
 
@@ -386,8 +381,7 @@ def test_combined_form_actions(live_server, selenium):
 
     # Initiate click on delete form button of 2nd & 4th form and on move form
     # up/down buttons of 1st & 5th form
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     forms[1].find_element(By.CSS_SELECTOR, '#delete-form-button').click()
     forms[3].find_element(By.CSS_SELECTOR, '#delete-form-button').click()
     forms[0].find_element(By.CSS_SELECTOR, '#move-form-down-button').click()
@@ -395,20 +389,18 @@ def test_combined_form_actions(live_server, selenium):
 
     # Initiate two clicks on add form button
     add_form_button = selenium.find_element(
-            By.CSS_SELECTOR, '#formset #add-form-button')
+        By.CSS_SELECTOR, '#formset #add-form-button'
+    )
     add_form_button.click()
     add_form_button.click()
 
     # Delete the last form, to assert that deleting a newly added forms works
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     forms[-1].find_element(By.CSS_SELECTOR, '#delete-form-button').click()
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
-    error_messages = [
-        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
-    ]
+    error_messages = [msg.strip() for msg in error_log.text.split('\n') if msg.strip()]
     assert error_messages == []
 
     # Assert attributes of form elements
@@ -416,8 +408,7 @@ def test_combined_form_actions(live_server, selenium):
     expected_text_values = ['user2', 'user4', 'user0', 'user1', 'user3', '']
     expected_delete_values = ['', '', '', 'on', 'on']
     expected_order_values = ['1', '3', '5', '2', '4', '6']
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     assert len(forms) == 6
     for i, form in enumerate(forms):
         # Label
@@ -426,8 +417,7 @@ def test_combined_form_actions(live_server, selenium):
         # Text input
         element = form.find_element(By.CSS_SELECTOR, 'input[type="text"]')
         assert (
-            element.get_attribute('name') ==
-            f'formset-{expected_form_indexes[i]}-user'
+            element.get_attribute('name') == f'formset-{expected_form_indexes[i]}-user'
         )
         assert element.get_attribute('value') == f'{expected_text_values[i]}'
 
@@ -435,8 +425,8 @@ def test_combined_form_actions(live_server, selenium):
         if i < len(expected_delete_values):  # only for the 5 initial forms
             element = form.find_element(By.CSS_SELECTOR, '[name$=DELETE]')
             assert (
-                element.get_attribute('name') ==
-                f'formset-{expected_form_indexes[i]}-DELETE'
+                element.get_attribute('name')
+                == f'formset-{expected_form_indexes[i]}-DELETE'
             )
             assert element.get_attribute('value') == f'{expected_delete_values[i]}'
         else:
@@ -445,8 +435,7 @@ def test_combined_form_actions(live_server, selenium):
         # Order index
         element = form.find_element(By.CSS_SELECTOR, 'input[name$="ORDER"]')
         assert (
-            element.get_attribute('name') ==
-            f'formset-{expected_form_indexes[i]}-ORDER'
+            element.get_attribute('name') == f'formset-{expected_form_indexes[i]}-ORDER'
         )
         assert element.get_attribute('value') == f'{expected_order_values[i]}'
 
@@ -463,21 +452,18 @@ def test_form_added_event(live_server, selenium):
 
     # Initiate click on add form button
     add_form_button = selenium.find_element(
-            By.CSS_SELECTOR, '#formset #add-form-button')
+        By.CSS_SELECTOR, '#formset #add-form-button'
+    )
     add_form_button.click()
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
-    error_messages = [
-        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
-    ]
+    error_messages = [msg.strip() for msg in error_log.text.split('\n') if msg.strip()]
     assert error_messages == []
 
     # Assert events
     event_log = selenium.find_element(By.CSS_SELECTOR, '#event-log')
-    event_messages = [
-        msg.strip() for msg in event_log.text.split('\n') if msg.strip()
-    ]
+    event_messages = [msg.strip() for msg in event_log.text.split('\n') if msg.strip()]
     assert event_messages == ['added:formset']
 
 
@@ -492,23 +478,18 @@ def test_form_deleted_event(live_server, selenium):
     selenium.get(test_url)
 
     # Initiate click on delete form button of 1st & 2nd form
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     forms[0].find_element(By.CSS_SELECTOR, '#delete-form-button').click()
     forms[1].find_element(By.CSS_SELECTOR, '#delete-form-button').click()
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
-    error_messages = [
-        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
-    ]
+    error_messages = [msg.strip() for msg in error_log.text.split('\n') if msg.strip()]
     assert error_messages == []
 
     # Assert events
     event_log = selenium.find_element(By.CSS_SELECTOR, '#event-log')
-    event_messages = [
-        msg.strip() for msg in event_log.text.split('\n') if msg.strip()
-    ]
+    event_messages = [msg.strip() for msg in event_log.text.split('\n') if msg.strip()]
     assert event_messages == ['removed:formset', 'removed:formset']
 
 
@@ -524,8 +505,7 @@ def test_form_moved_events(live_server, selenium):
 
     # Initiate clicks on move form down button of 1st form and on move form up
     # button of 3rd form
-    forms = selenium.find_elements(
-            By.CSS_SELECTOR, '#formset #forms-container .form')
+    forms = selenium.find_elements(By.CSS_SELECTOR, '#formset #forms-container .form')
     forms[0].find_element(By.CSS_SELECTOR, '#move-form-down-button').click()
     forms[2].find_element(By.CSS_SELECTOR, '#move-form-up-button').click()
     forms[2].find_element(By.CSS_SELECTOR, '#move-form-up-button').click()
@@ -537,16 +517,10 @@ def test_form_moved_events(live_server, selenium):
 
     # Assert errors
     error_log = selenium.find_element(By.CSS_SELECTOR, '#error-log')
-    error_messages = [
-        msg.strip() for msg in error_log.text.split('\n') if msg.strip()
-    ]
+    error_messages = [msg.strip() for msg in error_log.text.split('\n') if msg.strip()]
     assert error_messages == []
 
     # Assert events
     event_log = selenium.find_element(By.CSS_SELECTOR, '#event-log')
-    event_messages = [
-        msg.strip() for msg in event_log.text.split('\n') if msg.strip()
-    ]
-    assert event_messages == [
-        'movedDown:formset', 'movedUp:formset', 'movedUp:formset'
-    ]
+    event_messages = [msg.strip() for msg in event_log.text.split('\n') if msg.strip()]
+    assert event_messages == ['movedDown:formset', 'movedUp:formset', 'movedUp:formset']

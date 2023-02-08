@@ -11,6 +11,7 @@ def form_class():
         first_name = forms.CharField()
         last_name = forms.CharField()
         email_address = forms.EmailField()
+
     return PersonalDataForm
 
 

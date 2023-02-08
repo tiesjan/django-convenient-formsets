@@ -2,7 +2,7 @@ from django import forms
 from django.conf import settings
 
 
-class ConvenientFormsetsBase():
+class ConvenientFormsetsBase:
     deletion_widget = forms.HiddenInput
     ordering_widget = forms.HiddenInput
 
