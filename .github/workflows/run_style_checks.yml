@@ -1,0 +1,33 @@
+---
+name: Style checks
+
+on:
+  pull_request:
+    branches:
+      - "**"
+    tags-ignore:
+      - "**"
+  push:
+    branches:
+      - "**"
+    tags-ignore:
+      - "**"
+
+jobs:
+  Black:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check-out repository
+        uses: actions/checkout@v3.3.0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4.5.0
+        with:
+          python-version: "3.9"
+
+      - name: Install `tox`
+        run: python3 -m pip install tox
+
+      - name: Run linter
+        run: python3 -m tox -e black -- --check
