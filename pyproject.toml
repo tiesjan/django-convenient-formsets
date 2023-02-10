@@ -26,3 +26,17 @@ strict_equality = true
 warn_redundant_casts = true
 warn_return_any = true
 warn_unused_ignores = true
+
+[tool.pylint."MESSAGES CONTROL"]
+disable=[
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "missing-module-docstring",
+    "no-else-return",
+    "no-member",
+    "too-few-public-methods",
+    "too-many-ancestors",
+]
+
+[tool.pylint."FORMAT"]
+max-line-length=88
