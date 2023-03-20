@@ -8,9 +8,9 @@
 
 This Django app aims to make dynamic formsets convenient for users and
 developers alike. It extends Django's built-in formset classes and includes
-support for adding, deleting and ordering of forms on the client side.
-JavaScript events are dispatched when adding, deleting and ordering forms, for
-executing custom logic.
+support for adding, deleting and ordering of forms in the browser. JavaScript
+events are dispatched when forms are added, deleted or reordered, for executing
+custom logic.
 
 
 #### Supported platforms
@@ -172,10 +172,10 @@ denoted by the _**formSelector**_ parameter:
 
 #### Configuration
 Creating an instance of the JavaScript constructor function `ConvenientFormset`
-allows a user to add and delete forms within the rendered formset. When a user
-makes changes, the management form is updated accordingly. The constructor
-function can be passed the parameters outlined below. In case initialization
-fails, check the browser console for some helpful output.
+allows a user to add, delete and reorder forms within the rendered formset.
+When a user makes changes, the management form is updated accordingly. The
+constructor function can be passed the parameters outlined below. In case
+initialization fails, check the browser console for some helpful output.
 
 ###### GENERAL
 <dl>
