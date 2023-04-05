@@ -14,8 +14,8 @@ custom logic.
 
 
 #### Supported platforms
-- Django: 4.0+
-- Python: 3.11, 3.10, 3.9, 3.8, 3.7
+- Django: 4.2+
+- Python: 3.8+
 - Tested desktop browsers: latest Chrome, latest Firefox, latest Edge,
   latest Opera, latest Safari
 

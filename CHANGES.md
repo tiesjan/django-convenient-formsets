@@ -5,6 +5,8 @@
   tag instead of any other hidden tag. As such, the `emptyFormSelector`
   parameter has been renamed to `emptyFormTemplateSelector`. See updated usage
   documentation for an example.
+- **BREAKING:** Drop support for Django versions below 4.2
+- **BREAKING:** Drop support for Python versions below 3.8
 - **BREAKING:** Drop support for IE11 browser
 - Only latest desktop browsers are now tested for simplicity, minimal browser
   versions are no longer guaranteed

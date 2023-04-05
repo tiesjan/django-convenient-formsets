@@ -22,12 +22,10 @@ setuptools.setup(
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
-        "Framework :: Django :: 4.0",
-        "Framework :: Django :: 4.1",
+        "Framework :: Django :: 4.2",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
@@ -38,6 +36,6 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=("py_tests*",)),
     include_package_data=True,
     zip_safe=False,
-    python_requires=">=3.7",
-    install_requires=("Django>=4.0",),
+    python_requires=">=3.8",
+    install_requires=("Django>=4.2",),
 )
