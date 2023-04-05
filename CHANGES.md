@@ -1,6 +1,6 @@
 # Changes
 
-## (Unreleased)
+## Version 2.0
 - **BREAKING:** empty forms are now expected to appear inside the `<template>`
   tag instead of any other hidden tag. As such, the `emptyFormSelector`
   parameter has been renamed to `emptyFormTemplateSelector`. See updated usage
