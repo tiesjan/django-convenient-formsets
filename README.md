@@ -82,11 +82,11 @@ Other platform versions may work, but are not actively tested.
                     'emptyFormTemplateSelector': '#email-formset #empty-form-template',
 
                     'canDeleteForms': true,
-                    'deleteFormButtonSelector': '#delete-form-button',
+                    'deleteFormButtonSelector': '.delete-form-button',
 
                     'canOrderForms': true,
-                    'moveFormDownButtonSelector': '#move-form-down-button',
-                    'moveFormUpButtonSelector': '#move-form-up-button',
+                    'moveFormDownButtonSelector': '.move-form-down-button',
+                    'moveFormUpButtonSelector': '.move-form-up-button',
                 });
             });
         </script>
@@ -101,12 +101,12 @@ Other platform versions may work, but are not actively tested.
                     {{ email_form.email }}
                     {% if email_formset.can_delete %}
                         {{ email_form.DELETE }}
-                        <input type="button" id="delete-form-button" value="Delete">
+                        <input type="button" class="delete-form-button" value="Delete">
                     {% endif %}
                     {% if email_formset.can_order %}
                         {{ email_form.ORDER }}
-                        <input type="button" id="move-form-up-button" value="Move up">
-                        <input type="button" id="move-form-down-button" value="Move down">
+                        <input type="button" class="move-form-up-button" value="Move up">
+                        <input type="button" class="move-form-down-button" value="Move down">
                     {% endif %}
                 </div>
                 {% endfor %}
@@ -116,12 +116,12 @@ Other platform versions may work, but are not actively tested.
                 <div class="email-form">
                     {{ email_formset.empty_form.email }}
                     {% if email_formset.can_delete %}
-                        <input type="button" id="delete-form-button" value="Delete">
+                        <input type="button" class="delete-form-button" value="Delete">
                     {% endif %}
                     {% if email_formset.can_order %}
                         {{ email_form.ORDER }}
-                        <input type="button" id="move-form-up-button" value="Move up">
-                        <input type="button" id="move-form-down-button" value="Move down">
+                        <input type="button" class="move-form-up-button" value="Move up">
+                        <input type="button" class="move-form-down-button" value="Move down">
                     {% endif %}
                 </div>
             </template>
