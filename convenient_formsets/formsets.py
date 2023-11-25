@@ -1,5 +1,5 @@
-from django import forms  # type: ignore[import]
-from django.conf import settings  # type: ignore[import]
+from django import forms  # type: ignore[import-untyped]
+from django.conf import settings  # type: ignore[import-untyped]
 
 
 class ConvenientFormsetsBase:

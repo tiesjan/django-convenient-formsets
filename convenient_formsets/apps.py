@@ -1,4 +1,4 @@
-from django.apps import AppConfig  # type: ignore[import]
+from django.apps import AppConfig  # type: ignore[import-untyped]
 
 
 class ConvenientFormsetsConfig(AppConfig):
